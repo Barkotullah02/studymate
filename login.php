@@ -21,6 +21,7 @@ function escape_data($data){
     $email = escape_data($_POST['signupEmail']);
     $password = escape_data($_POST['signupPass']);
     $re_pass = escape_data($_POST['re_pass']);
+    $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
 
     echo $name;
     echo $email;
@@ -28,31 +29,39 @@ function escape_data($data){
     echo $re_pass;
 
      if($password == $re_pass){
-         // Hash the password
-         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+         // Hash the passwor
 
-         // Database connection
-         $conn = new mysqli('localhost', 'root', '', 'user_registration');
-
-         // Check connection
-         if ($conn->connect_error) {
-             die("Connection failed: " . $conn->connect_error);
-         }
 
          // Insert user data into database
-         $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$hashed_password')";
+         $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$hashed_pass')";
         
-         if ($conn->query($sql) === TRUE) {
-             echo "New record created successfully";
-         } else {
-             echo "Error: " . $sql . "<br>" . $conn->error;
-         }
+         $result = mysqli_query($connection, $sql);
 
-         // Close connection
-         $conn->close();
+         $connection->close();
      } else {
          echo "Passwords do not match!";
      }
+   }
+   if (isset($_POST['signin'])) {
+       $is_valid = false;
+       $email = escape_data($_POST['signinEmail']);
+       $password = escape_data($_POST['signinPassword']);
+       $query = "SELECT * FROM users WHERE email = '$email'";
+       $result = mysqli_query($connection, $query);
+
+
+       while ($row = mysqli_fetch_assoc($result)) {
+           $db_password = $row['password'];
+           if (password_verify($password, $db_password)) {
+               $is_valid = true;
+           }
+       }
+       if ($is_valid) {
+           echo "Login Successful!";
+       }
+       else{
+           echo "Login Failed!";
+       }
    }
 ?>
 <!DOCTYPE html>
@@ -136,11 +145,11 @@ function escape_data($data){
                         <form method="POST" class="register-form" id="login-form" action="login.php">
                             <div class="form-group">
                                 <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="signinName" id="your_name" placeholder="Your Name"/>
+                                <input type="email" name="signinEmail" id="your_name" placeholder="Your Email" required/>
                             </div>
                             <div class="form-group">
                                 <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="signinPassword" id="your_pass" placeholder="Password"/>
+                                <input type="password" name="signinPassword" id="your_pass" placeholder="Password" required/>
                             </div>
                             <div class="form-group form-button">
                                 <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
