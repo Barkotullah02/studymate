@@ -1,41 +1,58 @@
 <?php
+include 'db_connection.php';
+function escape_data($data){
+    include 'db_connection.php';
+
+    $data = trim($data);
+
+    $data = stripslashes($data);
+
+    $data = htmlspecialchars($data);
+
+    $data = mysqli_real_escape_string($connection, $data);
+
+
+    return $data;
+
+}
+
    if(isset($_POST['signup'])){
-    $name = $_POST['signupName'];
-    $email = $_POST['signupEmail'];
-    $password = $_POST['signupPass'];
-    $re_pass = $_POST['re_pass'];
+    $name = escape_data($_POST['signupName']);
+    $email = escape_data($_POST['signupEmail']);
+    $password = escape_data($_POST['signupPass']);
+    $re_pass = escape_data($_POST['re_pass']);
 
     echo $name;
     echo $email;
     echo $password;
     echo $re_pass;
 
-    // if($password == $re_pass){
-    //     // Hash the password
-    //     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+     if($password == $re_pass){
+         // Hash the password
+         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    //     // Database connection
-    //     $conn = new mysqli('localhost', 'root', '', 'user_registration');
+         // Database connection
+         $conn = new mysqli('localhost', 'root', '', 'user_registration');
 
-    //     // Check connection
-    //     if ($conn->connect_error) {
-    //         die("Connection failed: " . $conn->connect_error);
-    //     }
+         // Check connection
+         if ($conn->connect_error) {
+             die("Connection failed: " . $conn->connect_error);
+         }
 
-    //     // Insert user data into database
-    //     $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$hashed_password')";
+         // Insert user data into database
+         $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$hashed_password')";
         
-    //     if ($conn->query($sql) === TRUE) {
-    //         echo "New record created successfully";
-    //     } else {
-    //         echo "Error: " . $sql . "<br>" . $conn->error;
-    //     }
+         if ($conn->query($sql) === TRUE) {
+             echo "New record created successfully";
+         } else {
+             echo "Error: " . $sql . "<br>" . $conn->error;
+         }
 
-    //     // Close connection
-    //     $conn->close();
-    // } else {
-    //     echo "Passwords do not match!";
-    // }
+         // Close connection
+         $conn->close();
+     } else {
+         echo "Passwords do not match!";
+     }
    }
 ?>
 <!DOCTYPE html>
