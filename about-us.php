@@ -7,7 +7,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="icon" href="img/favicon.png" type="image/png" />
+    <link rel="icon" href="img/sm-logo.png" type="image/png" />
     <title>About Us</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css" />
@@ -46,7 +46,7 @@
           <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <a class="navbar-brand" href="index.php">
-              <img class="logo-2" src="img/logo2.png" alt="" />
+              <img class="logo-2" style="width: 80px;" src="img/sm-logo-bgwhite.png" alt="" />
             </a>
             <button
               class="navbar-toggler"
@@ -96,27 +96,27 @@
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Blog</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="blog.php">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="single-blog.php"
-                        >Blog Details</a
+                  <li class="nav-item submenu dropdown">
+                      <a
+                              href="#"
+                              class="nav-link dropdown-toggle"
+                              data-toggle="dropdown"
+                              role="button"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                      >Daily Update</a
                       >
-                    </li>
-                  </ul>
-                </li>
+                      <ul class="dropdown-menu">
+                          <li class="nav-item">
+                              <a class="nav-link" href="blog.php">My Posts</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="single-blog.php"
+                              >Post Details</a
+                              >
+                          </li>
+                      </ul>
+                  </li>
                 <li class="nav-item">
                   <a class="nav-link" href="contact.php">Contact</a>
                 </li>
@@ -448,7 +448,7 @@
         <div class="row footer-bottom d-flex justify-content-between">
           <p class="col-lg-8 col-sm-12 footer-text m-0 text-white">
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by <a href="https://www.linkedin.com/in/barkotullahopu/" target="_blank">Barkotullah Opu</a>
 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
           </p>
           <div class="col-lg-4 col-sm-12 footer-social">

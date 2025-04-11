@@ -1,3 +1,22 @@
+<?php
+session_start();
+ob_start();
+
+
+$username = "";
+$useremail = "";
+$usermode = "";
+$userimage = "";
+$logged_in = false;
+
+if(isset($_SESSION['uname'])){
+    $username = $_SESSION['name'];
+    $useremail = $_SESSION['email'];
+    $usermode = $_SESSION['mode'];
+    $userimage = $_SESSION['image'];
+    $logged_in = true;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -34,7 +53,7 @@
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
-          <a class="navbar-brand logo_h" href="index.php"><img style="width: 80px;" src="img/sm-logo.png" alt="" /></a>
+          <a class="navbar-brand logo_h" href="index.php"><img style="width: 80px;" src="img/sm-logo-new.png" alt="" /></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="icon-bar"></span> <span class="icon-bar"></span>
@@ -79,12 +98,31 @@
               <li class="nav-item">
                 <a class="nav-link" href="contact.php">Contact</a>
               </li>
+                <?php
+                if(!$logged_in){
+                ?>
               <li class="nav-item">
                 <a class="nav-link" href="login.php">Login</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="contact.php">Signup</a>
               </li>
+                <?php }
+                else{
+                ?>
+                    <li class="nav-item submenu dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                           aria-expanded="false"><?php echo $username; ?></a>
+                        <ul class="dropdown-menu">
+                            <li class="nav-item">
+                                <a class="nav-link" href="blog.php">Profile Settings</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="single-blog.php">Logout</a>
+                            </li>
+                        </ul>
+                    </li>
+                <?php } ?>
               <li class="nav-item">
                 <a href="#" class="nav-link search" id="search">
                   <i class="ti-search"></i>
@@ -720,14 +758,11 @@
         </div>
       </div>
       <div class="row footer-bottom d-flex justify-content-between">
-        <p class="col-lg-8 col-sm-12 footer-text m-0 text-white">
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-          Copyright &copy;
-          <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i
-            class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a><br>
-            Distributed by <a href="https://themewagon.com" target="_blank">Themewagon</a>
-          <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-        </p>
+          <p class="col-lg-8 col-sm-12 footer-text m-0 text-white">
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved by <a href="https://www.linkedin.com/in/barkotullahopu/" target="_blank">Barkotullah Opu</a>
+              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+          </p>
         <div class="col-lg-4 col-sm-12 footer-social text-center">
           <a href="#"><i class="ti-facebook"></i></a>
           <a href="#"><i class="ti-twitter"></i></a>
