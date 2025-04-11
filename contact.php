@@ -8,7 +8,7 @@
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
     <link rel="icon" href="img/favicon.png" type="image/png" />
-    <title>About Us</title>
+    <title>Contact</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/flaticon.css" />
@@ -45,7 +45,7 @@
         <nav class="navbar navbar-expand-lg navbar-light">
           <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
-            <a class="navbar-brand" href="index.html">
+            <a class="navbar-brand" href="index.php">
               <img class="logo-2" src="img/logo2.png" alt="" />
             </a>
             <button
@@ -67,10 +67,10 @@
             >
               <ul class="nav navbar-nav menu_nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link" href="index.html">Home</a>
+                  <a class="nav-link" href="index.php">Home</a>
                 </li>
-                <li class="nav-item active">
-                  <a class="nav-link" href="about-us.html">About</a>
+                <li class="nav-item">
+                  <a class="nav-link" href="about-us.php">About</a>
                 </li>
                 <li class="nav-item submenu dropdown">
                   <a
@@ -84,15 +84,15 @@
                   >
                   <ul class="dropdown-menu">
                     <li class="nav-item">
-                      <a class="nav-link" href="courses.html">Courses</a>
+                      <a class="nav-link" href="courses.php">Courses</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="course-details.html"
+                      <a class="nav-link" href="course-details.php"
                         >Course Details</a
                       >
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="elements.html">Elements</a>
+                      <a class="nav-link" href="elements.php">Elements</a>
                     </li>
                   </ul>
                 </li>
@@ -108,17 +108,17 @@
                   >
                   <ul class="dropdown-menu">
                     <li class="nav-item">
-                      <a class="nav-link" href="blog.html">Blog</a>
+                      <a class="nav-link" href="blog.php">Blog</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="single-blog.html"
+                      <a class="nav-link" href="single-blog.php"
                         >Blog Details</a
                       >
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="contact.html">Contact</a>
+                <li class="nav-item active">
+                  <a class="nav-link" href="contact.php">Contact</a>
                 </li>
                 <li class="nav-item">
                   <a href="#" class="nav-link search" id="search">
@@ -141,10 +141,10 @@
           <div class="row justify-content-center">
             <div class="col-lg-6">
               <div class="banner_content text-center">
-                <h2>About Us</h2>
+                <h2>Contact Us</h2>
                 <div class="page_link">
-                  <a href="index.html">Home</a>
-                  <a href="about-us.html">About Us</a>
+                  <a href="index.php">Home</a>
+                  <a href="contact.html">Contact</a>
                 </div>
               </div>
             </div>
@@ -154,222 +154,112 @@
     </section>
     <!--================End Home Banner Area =================-->
 
-    <!--================ Start About Area =================-->
-    <section class="about_area section_gap">
+    <!--================Contact Area =================-->
+    <section class="contact_area section_gap">
       <div class="container">
-        <div class="row h_blog_item">
-          <div class="col-lg-6">
-            <div class="h_blog_img">
-              <img class="img-fluid" src="img/about.png" alt="" />
-            </div>
-          </div>
-          <div class="col-lg-6">
-            <div class="h_blog_text">
-              <div class="h_blog_text_inner left right">
-                <h4>Welcome to our Institute</h4>
-                <p>
-                  Subdue whales void god which living don't midst lesser
-                  yielding over lights whose. Cattle greater brought sixth fly
-                  den dry good tree isn't seed stars were.
-                </p>
-                <p>
-                  Subdue whales void god which living don't midst lesser yieldi
-                  over lights whose. Cattle greater brought sixth fly den dry
-                  good tree isn't seed stars were the boring.
-                </p>
-                <a class="primary-btn" href="#">
-                  Learn More <i class="ti-arrow-right ml-1"></i>
-                </a>
+        <div
+          id="mapBox"
+          class="mapBox"
+          data-lat="40.701083"
+          data-lon="-74.1522848"
+          data-zoom="13"
+          data-info="PO Box CT16122 Collins Street West, Victoria 8007, Australia."
+          data-mlat="40.701083"
+          data-mlon="-74.1522848"
+        ></div>
+        <div class="row">
+          <div class="col-lg-3">
+            <div class="contact_info">
+              <div class="info_item">
+                <i class="ti-home"></i>
+                <h6>California, United States</h6>
+                <p>Santa monica bullevard</p>
+              </div>
+              <div class="info_item">
+                <i class="ti-headphone"></i>
+                <h6><a href="#">00 (440) 9865 562</a></h6>
+                <p>Mon to Fri 9am to 6 pm</p>
+              </div>
+              <div class="info_item">
+                <i class="ti-email"></i>
+                <h6><a href="#">support@colorlib.com</a></h6>
+                <p>Send us your query anytime!</p>
               </div>
             </div>
+          </div>
+          <div class="col-lg-9">
+            <form
+              class="row contact_form"
+              action="contact_process.php"
+              method="post"
+              id="contactForm"
+              novalidate="novalidate"
+            >
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name"
+                    name="name"
+                    placeholder="Enter your name"
+                    onfocus="this.placeholder = ''"
+                    onblur="this.placeholder = 'Enter your name'"
+                    required=""
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    name="email"
+                    placeholder="Enter email address"
+                    onfocus="this.placeholder = ''"
+                    onblur="this.placeholder = 'Enter email address'"
+                    required=""
+                  />
+                </div>
+                <div class="form-group">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="subject"
+                    name="subject"
+                    placeholder="Enter Subject"
+                    onfocus="this.placeholder = ''"
+                    onblur="this.placeholder = 'Enter Subject'"
+                    required=""
+                  />
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <textarea
+                    class="form-control"
+                    name="message"
+                    id="message"
+                    rows="1"
+                    placeholder="Enter Message"
+                    onfocus="this.placeholder = ''"
+                    onblur="this.placeholder = 'Enter Message'"
+                    required=""
+                  ></textarea>
+                </div>
+              </div>
+              <div class="col-md-12 text-right">
+                <button type="submit" value="submit" class="btn primary-btn">
+                  Send Message
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
     </section>
-    <!--================ End About Area =================-->
+    <!--================Contact Area =================-->
 
-    <!--================ Start Feature Area =================-->
-    <section class="feature_area section_gap_top title-bg">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-5">
-            <div class="main_title">
-              <h2 class="mb-3 text-white">Awesome Feature</h2>
-              <p>
-                Replenish man have thing gathering lights yielding shall you
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 col-md-6">
-            <div class="single_feature">
-              <div class="icon"><span class="flaticon-student"></span></div>
-              <div class="desc">
-                <h4 class="mt-3 mb-2">Scholarship Facility</h4>
-                <p>
-                  One make creepeth, man bearing theira firmament won't great
-                  heaven
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6">
-            <div class="single_feature">
-              <div class="icon"><span class="flaticon-book"></span></div>
-              <div class="desc">
-                <h4 class="mt-3 mb-2">Sell Online Course</h4>
-                <p>
-                  One make creepeth, man bearing theira firmament won't great
-                  heaven
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6">
-            <div class="single_feature">
-              <div class="icon"><span class="flaticon-earth"></span></div>
-              <div class="desc">
-                <h4 class="mt-3 mb-2">Global Certification</h4>
-                <p>
-                  One make creepeth, man bearing theira firmament won't great
-                  heaven
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!--================ End Feature Area =================-->
-
-    <!--================ Start Testimonial Area =================-->
-    <div class="testimonial_area section_gap">
-      <div class="container">
-        <div class="row justify-content-center">
-          <div class="col-lg-5">
-            <div class="main_title">
-              <h2 class="mb-3">Client say about me</h2>
-              <p>
-                Replenish man have thing gathering lights yielding shall you
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="testi_slider owl-carousel">
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="img/testimonials/t1.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>Elite Martin</h4>
-                    <p>
-                      Him, made can't called over won't there on divide there
-                      male fish beast own his day third seed sixth seas unto.
-                      Saw from
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="img/testimonials/t2.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>Davil Saden</h4>
-                    <p>
-                      Him, made can't called over won't there on divide there
-                      male fish beast own his day third seed sixth seas unto.
-                      Saw from
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="img/testimonials/t1.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>Elite Martin</h4>
-                    <p>
-                      Him, made can't called over won't there on divide there
-                      male fish beast own his day third seed sixth seas unto.
-                      Saw from
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="img/testimonials/t2.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>Davil Saden</h4>
-                    <p>
-                      Him, made can't called over won't there on divide there
-                      male fish beast own his day third seed sixth seas unto.
-                      Saw from
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="img/testimonials/t1.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>Elite Martin</h4>
-                    <p>
-                      Him, made can't called over won't there on divide there
-                      male fish beast own his day third seed sixth seas unto.
-                      Saw from
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="testi_item">
-              <div class="row">
-                <div class="col-lg-4 col-md-6">
-                  <img src="img/testimonials/t2.jpg" alt="" />
-                </div>
-                <div class="col-lg-8">
-                  <div class="testi_text">
-                    <h4>Davil Saden</h4>
-                    <p>
-                      Him, made can't called over won't there on divide there
-                      male fish beast own his day third seed sixth seas unto.
-                      Saw from
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!--================ End Testimonial Area =================-->
-
-    <!--================ Start footer Area  =================-->
+    <!--================ start footer Area  =================-->
     <footer class="footer-area section_gap">
       <div class="container">
         <div class="row">
@@ -424,7 +314,7 @@
                   name="EMAIL"
                   placeholder="Your Email Address"
                   onfocus="this.placeholder = ''"
-                  onblur="this.placeholder = 'Your Email Address'"
+                  onblur="this.placeholder = 'Your Email Address '"
                   required=""
                   type="email"
                 />
@@ -462,19 +352,64 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
     </footer>
     <!--================ End footer Area  =================-->
 
+    <!--================Contact Success and Error message Area =================-->
+    <div id="success" class="modal modal-message fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <i class="ti-close"></i>
+            </button>
+            <h2>Thank you</h2>
+            <p>Your message is successfully sent...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modals error -->
+
+    <div id="error" class="modal modal-message fade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <i class="ti-close"></i>
+            </button>
+            <h2>Sorry !</h2>
+            <p>Something went wrong</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--================End Contact Success and Error message Area =================-->
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="js/jquery-3.2.1.min.js"></script>
     <script src="js/popper.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/stellar.js"></script>
     <script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
     <script src="vendors/owl-carousel/owl.carousel.min.js"></script>
     <script src="js/owl-carousel-thumb.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
     <script src="js/mail-script.js"></script>
     <!--gmaps Js-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="js/gmaps.min.js"></script>
+    <script src="js/contact.js"></script>
     <script src="js/theme.js"></script>
   </body>
 </html>

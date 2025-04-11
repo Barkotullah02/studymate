@@ -34,7 +34,7 @@
       <nav class="navbar navbar-expand-lg navbar-light">
         <div class="container">
           <!-- Brand and toggle get grouped for better mobile display -->
-          <a class="navbar-brand logo_h" href="index.html"><img style="width: 80px;" src="img/sm-logo.png" alt="" /></a>
+          <a class="navbar-brand logo_h" href="index.php"><img style="width: 80px;" src="img/sm-logo.png" alt="" /></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="icon-bar"></span> <span class="icon-bar"></span>
@@ -44,23 +44,23 @@
           <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
             <ul class="nav navbar-nav menu_nav ml-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="index.html">Home</a>
+                <a class="nav-link" href="index.php">Home</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="about-us.html">About</a>
+                <a class="nav-link" href="about-us.php">About</a>
               </li>
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Pages</a>
                 <ul class="dropdown-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="courses.html">Courses</a>
+                    <a class="nav-link" href="courses.php">Courses</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="course-details.html">Course Details</a>
+                    <a class="nav-link" href="course-details.php">Course Details</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="elements.html">Elements</a>
+                    <a class="nav-link" href="elements.php">Elements</a>
                   </li>
                 </ul>
               </li>
@@ -69,21 +69,21 @@
                   aria-expanded="false">Blog</a>
                 <ul class="dropdown-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="blog.html">Blog</a>
+                    <a class="nav-link" href="blog.php">Blog</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="single-blog.html">Blog Details</a>
+                    <a class="nav-link" href="single-blog.php">Blog Details</a>
                   </li>
                 </ul>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="contact.html">Contact</a>
+                <a class="nav-link" href="contact.php">Contact</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="login.php">Login</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="contact.html">Signup</a>
+                <a class="nav-link" href="contact.php">Signup</a>
               </li>
               <li class="nav-item">
                 <a href="#" class="nav-link search" id="search">
@@ -205,7 +205,7 @@
                 <span class="price">$25</span>
                 <span class="tag mb-4 d-inline-block">design</span>
                 <h4 class="mb-3">
-                  <a href="course-details.html">Custom Product Design</a>
+                  <a href="course-details.php">Custom Product Design</a>
                 </h4>
                 <p>
                   One make creepeth man bearing their one firmament won't fowl
@@ -235,7 +235,7 @@
                 <span class="price">$25</span>
                 <span class="tag mb-4 d-inline-block">design</span>
                 <h4 class="mb-3">
-                  <a href="course-details.html">Social Media Network</a>
+                  <a href="course-details.php">Social Media Network</a>
                 </h4>
                 <p>
                   One make creepeth man bearing their one firmament won't fowl
@@ -265,7 +265,7 @@
                 <span class="price">$25</span>
                 <span class="tag mb-4 d-inline-block">design</span>
                 <h4 class="mb-3">
-                  <a href="course-details.html">Computer Engineering</a>
+                  <a href="course-details.php">Computer Engineering</a>
                 </h4>
                 <p>
                   One make creepeth man bearing their one firmament won't fowl
