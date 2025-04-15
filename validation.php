@@ -5,13 +5,17 @@ $username = "";
 $useremail = "";
 $usermode = "";
 $userimage = "";
-if(isset($_SESSION['uname'])){
-    $username = $_SESSION['uname'];
+$id = "";
+$gender = "";
+if(isset($_SESSION['twostep']) && $_SESSION['twostep']){
+    $username = $_SESSION['name'];
     $useremail = $_SESSION['email'];
     $usermode = $_SESSION['mode'];
     $userimage = $_SESSION['image'];
+    $id = $_SESSION['id'];
+    $gender = $_SESSION['gender'];
 }
 else{
-    header("location: login.php");
+    header("location: logout.php");
 }
 ?>

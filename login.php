@@ -60,11 +60,13 @@ function escape_data($data){
            $db_password = $row['password'];
            if (password_verify($password, $db_password)) {
                $is_valid = true;
+               $_SESSION['id'] = $row['user_id'];
                $_SESSION['email'] = $row['email'];
                $_SESSION['name'] = $row['name'];
                $_SESSION['umode'] = $row['mode'];
                $_SESSION['uimage'] = $row['image'];
-               header('Location: index.php');
+               $_SESSION['twostep'] = false;
+               header('Location: twostep.php');
            }
        }
        if ($is_valid) {

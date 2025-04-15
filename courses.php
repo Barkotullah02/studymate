@@ -1,3 +1,7 @@
+<?php
+//session_start();
+//include 'validation.php';
+//?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -96,27 +100,27 @@
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Blog</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="blog.php">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="single-blog.php"
-                        >Blog Details</a
+                  <li class="nav-item submenu dropdown active">
+                      <a
+                              href="#"
+                              class="nav-link dropdown-toggle"
+                              data-toggle="dropdown"
+                              role="button"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                      >Daily Update</a
                       >
-                    </li>
-                  </ul>
-                </li>
+                      <ul class="dropdown-menu">
+                          <li class="nav-item">
+                              <a class="nav-link" href="myposts.php">My Posts</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="single-post.php"
+                              >Post Details</a
+                              >
+                          </li>
+                      </ul>
+                  </li>
                 <li class="nav-item">
                   <a class="nav-link" href="contact.php">Contact</a>
                 </li>

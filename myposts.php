@@ -1,3 +1,38 @@
+<?php
+include 'db_connection.php';
+include 'validation.php';
+function escape_data($data){
+    include 'db_connection.php';
+
+    $data = trim($data);
+
+    $data = stripslashes($data);
+
+    $data = htmlspecialchars($data);
+
+    $data = mysqli_real_escape_string($connection, $data);
+
+
+    return $data;
+
+}
+if (isset($_POST['post'])) {
+    $title = escape_data($_POST['title']);
+    $subjectid = escape_data($_POST['subject']);
+    $subjectid = intval($subjectid);
+    $description = escape_data($_POST['details']);
+    $tmp_problemimage = $_FILES['problemimage']['tmp_name'];
+    $problemimage = escape_data($_FILES['problemimage']['name']);
+    $userid = intval($id);
+
+    $postQuery = "INSERT INTO `problems`(`student_id`, `subject_id`, `title`, `description`, `problem_img`) VALUE ($userid, $subjectid, '$title', '$description', '$problemimage')";
+    $result = mysqli_query($connection, $postQuery);
+    move_uploaded_file($tmp_problemimage, "img/problems/$problemimage");
+
+    echo $title . $description . $subjectid . ' ' . $userid . $problemimage;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,8 +42,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="icon" href="img/favicon.png" type="image/png" />
-    <title>Edustage Education</title>
+    <link rel="icon" href="img/sm-logo-new.png" type="image/png" />
+    <title>My Posts | StudyMate</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/flaticon.css" />
@@ -108,10 +143,10 @@
                   >
                   <ul class="dropdown-menu">
                     <li class="nav-item">
-                      <a class="nav-link" href="blog.php">My Posts</a>
+                      <a class="nav-link" href="myposts.php">My Posts</a>
                     </li>
                     <li class="nav-item">
-                      <a class="nav-link" href="single-blog.php"
+                      <a class="nav-link" href="single-post.php"
                         >Post Details</a
                       >
                     </li>
@@ -167,163 +202,115 @@
                         <article class="row blog_item">
                             <div class="col-md-3">
                                 <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
-                                    <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="ti-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2017<i class="ti-calendar"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="ti-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="ti-comment"></i></a></li>
-                                    </ul>
                                 </div>
                             </div>
                             <div class="col-md-9">
                                 <div class="blog_post">
-                                    <img src="img/blog/main-blog/m-blog-1.jpg" alt="">
-                                    <div class="blog_details">
-                                        <a href="single-blog.php">
-                                            <h2>Astronomy Binoculars A Great Alternative</h2>
-                                        </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="single-blog.php" class="blog_btn">View More</a>
-                                    </div>
+                                    <p style="text-align: center; color: #d39e00; font-size: 120%; font-weight: bold;">
+                                        Post a problem<br>
+                                        <span style="font-size: 70%; color: rgba(255,0,0,0.73); text-align: center;">The admins of StudyMate reserves all right to remove your post at any time</span>
+                                    </p>
+                                    <form action="myposts.php" method="POST" enctype="multipart/form-data">
+                                        <div class="form-group row">
+                                            <label for="staticEmail" class="col-sm-2 col-form-label">Select a subject</label>
+                                            <div class="col-sm-10">
+                                                <select name="subject" id="subject" required>
+                                                    <option value="" selected disabled>Select a subject</option>
+                                                    <?php
+                                                    $getSubjectQuery = mysqli_query($connection, "SELECT * FROM subjects");
+                                                    while ($row = mysqli_fetch_assoc($getSubjectQuery)) {
+                                                        $subject_id = $row['subject_id'];
+                                                        $subject_name = $row['name'];
+                                                    ?>
+                                                        <option class="form-control" value="<?php echo $subject_id; ?>"><?php echo $subject_name; ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="title" class="col-sm-2 col-form-label">Title</label>
+                                            <div class="col-sm-10">
+                                                <input type="text" name="title" class="form-control" id="" placeholder="Enter the title for your problem" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputPassword" class="col-sm-2 col-form-label"></label>
+                                            <div class="col-sm-10">
+                                                <textarea name="details" class="form-control" id="" required>Enter your problem description here.</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="inputPassword" class="col-sm-6 col-form-label">Enter an image related to your problem</label>
+                                            <div class="col-sm-10">
+                                                <input type="file" class="" style="display: inline-block; padding: 10px 20px; cursor: pointer; background-color: rgba(189,156,74,0.58); color: #1c0a0a; border-radius: 6px; font-size: 16px; transition: background-color 0.3s ease;" id="problemimage" name="problemimage">
+                                            </div>
+                                            <script>
+                                                document.getElementById("problemimage").addEventListener("change", function () {
+                                                    const fileInput = this;
+                                                    const file = fileInput.files[0];
+                                                    const errorText = document.getElementById("fileError");
+
+                                                    if (file && !file.type.startsWith("image/")) {
+                                                        errorText.textContent = "Only image files are allowed!";
+                                                        fileInput.value = ""; // clear the invalid file
+                                                    } else {
+                                                        errorText.textContent = ""; // clear previous errors
+                                                    }
+                                                });
+                                            </script>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-sm-10">
+                                                <input type="submit" name="post" value="POST" class="btn btn-outline-warning col-sm-2 col-form-label" >
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </article>
+                        <?php
+                        $problemsql = $problemsql = mysqli_query($connection, " SELECT problems.*, 
+                                                                                            users.name AS student_name, 
+                                                                                            subjects.name AS subject_name 
+                                                                                        FROM problems 
+                                                                                        JOIN users ON problems.student_id = users.user_id 
+                                                                                        JOIN subjects ON problems.subject_id = subjects.subject_id");
+
+                        while ($row = mysqli_fetch_assoc($problemsql)) {
+                            $problem_id = $row['problem_id'];
+                            $problem_title = $row['title'];
+                            $problem_description = $row['description'];
+                            $postedate = $row['posted_at'];
+                            $problem_image = $row['problem_img'];
+                            $student_name = $row['student_name'];
+                            $subject_name = $row['subject_name'];
+                            ?>
+
                         <article class="row blog_item">
                             <div class="col-md-3">
                                 <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
                                     <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="ti-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2017<i class="ti-calendar"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="ti-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="ti-comment"></i></a></li>
+                                        <li><a href="#"><?php echo $student_name; ?><i class="ti-user"></i></a></li>
+                                        <li><a href="#"><?php echo $postedate; ?><i class="ti-calendar"></i></a></li>
+                                        <li><a href="#"><?php echo $subject_name; ?><i class="ti-eye"></i></a></li>
+                                        <li><a href="#">View Profile<i class="ti-user"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="col-md-9">
                                 <div class="blog_post">
-                                    <img src="img/blog/main-blog/m-blog-2.jpg" alt="">
+                                    <img src="img/problems/<?php echo $problem_image; ?>" alt="">
                                     <div class="blog_details">
-                                        <a href="single-blog.php">
-                                            <h2>The Basics Of Buying A Telescope</h2>
+                                        <a href="single-post.php">
+                                            <h2><?php echo $problem_title; ?></h2>
                                         </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="single-blog.php" class="blog_btn">View More</a>
+                                        <p><?php echo $problem_description; ?></p>
+                                        <a href="single-post.php" class="blog_btn">View More</a>
                                     </div>
                                 </div>
                             </div>
                         </article>
-                        <article class="row blog_item">
-                            <div class="col-md-3">
-                                <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
-                                    <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="ti-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2017<i class="ti-calendar"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="ti-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="ti-comment"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="blog_post">
-                                    <img src="img/blog/main-blog/m-blog-3.jpg" alt="">
-                                    <div class="blog_details">
-                                        <a href="single-blog.php">
-                                            <h2>The Glossary Of Telescopes</h2>
-                                        </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="single-blog.php" class="blog_btn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="row blog_item">
-                            <div class="col-md-3">
-                                <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
-                                    <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="ti-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2017<i class="ti-calendar"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="ti-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="ti-comment"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="blog_post">
-                                    <img src="img/blog/main-blog/m-blog-4.jpg" alt="">
-                                    <div class="blog_details">
-                                        <a href="single-blog.php">
-                                            <h2>The Night Sky</h2>
-                                        </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="single-blog.php" class="blog_btn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
-                        <article class="row blog_item">
-                            <div class="col-md-3">
-                                <div class="blog_info text-right">
-                                    <div class="post_tag">
-                                        <a href="#">Food,</a>
-                                        <a class="active" href="#">Technology,</a>
-                                        <a href="#">Politics,</a>
-                                        <a href="#">Lifestyle</a>
-                                    </div>
-                                    <ul class="blog_meta list">
-                                        <li><a href="#">Mark wiens<i class="ti-user"></i></a></li>
-                                        <li><a href="#">12 Dec, 2017<i class="ti-calendar"></i></a></li>
-                                        <li><a href="#">1.2M Views<i class="ti-eye"></i></a></li>
-                                        <li><a href="#">06 Comments<i class="ti-comment"></i></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="blog_post">
-                                    <img src="img/blog/main-blog/m-blog-5.jpg" alt="">
-                                    <div class="blog_details">
-                                        <a href="single-blog.php">
-                                            <h2>Telescopes 101</h2>
-                                        </a>
-                                        <p>MCSE boot camps have its supporters and its detractors. Some people do not
-                                            understand why you should have to spend money on boot camp when you can get
-                                            the MCSE study materials yourself at a fraction.</p>
-                                        <a href="single-blog.php" class="blog_btn">View More</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </article>
+                        <?php } ?>
                         <nav class="blog-pagination justify-content-center d-flex">
                             <ul class="pagination">
                                 <li class="page-item">
@@ -358,21 +345,6 @@
                                     <button class="btn btn-default" type="button"><i class="ti-search"></i></button>
                                 </span>
                             </div><!-- /input-group -->
-                            <div class="br"></div>
-                        </aside>
-                        <aside class="single_sidebar_widget author_widget">
-                            <img class="author_img rounded-circle" src="img/blog/author.png" alt="">
-                            <h4>Charlie Barber</h4>
-                            <p>Senior blog writer</p>
-                            <div class="social_icon">
-                                <a href="#"><i class="ti-facebook"></i></a>
-                                <a href="#"><i class="ti-twitter"></i></a>
-                                <a href="#"><i class="ti-github"></i></a>
-                                <a href="#"><i class="ti-linkedin"></i></a>
-                            </div>
-                            <p>Boot camps have its supporters andit sdetractors. Some people do not understand why you
-                                should have to spend money on boot camp when you can get. Boot camps have itssuppor
-                                ters andits detractors.</p>
                             <div class="br"></div>
                         </aside>
                         <aside class="single_sidebar_widget popular_post_widget">
@@ -485,23 +457,6 @@
                             </div>
                             <p class="text-bottom">You can unsubscribe at any time</p>
                             <div class="br"></div>
-                        </aside>
-                        <aside class="single-sidebar-widget tag_cloud_widget">
-                            <h4 class="widget_title">Tag Clouds</h4>
-                            <ul class="list">
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Fashion</a></li>
-                                <li><a href="#">Architecture</a></li>
-                                <li><a href="#">Fashion</a></li>
-                                <li><a href="#">Food</a></li>
-                                <li><a href="#">Technology</a></li>
-                                <li><a href="#">Lifestyle</a></li>
-                                <li><a href="#">Art</a></li>
-                                <li><a href="#">Adventure</a></li>
-                                <li><a href="#">Food</a></li>
-                                <li><a href="#">Lifestyle</a></li>
-                                <li><a href="#">Adventure</a></li>
-                            </ul>
                         </aside>
                     </div>
                 </div>

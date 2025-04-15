@@ -9,7 +9,7 @@ $usermode = "";
 $userimage = "";
 $logged_in = false;
 
-if(isset($_SESSION['uname'])){
+if($_SESSION['twostep']){
     $username = $_SESSION['name'];
     $useremail = $_SESSION['email'];
     $usermode = $_SESSION['mode'];
@@ -85,13 +85,13 @@ if(isset($_SESSION['uname'])){
               </li>
               <li class="nav-item submenu dropdown">
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Blog</a>
+                  aria-expanded="false">Daily Updates</a>
                 <ul class="dropdown-menu">
                   <li class="nav-item">
-                    <a class="nav-link" href="blog.php">Blog</a>
+                    <a class="nav-link" href="myposts.php">My Posts</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="single-blog.php">Blog Details</a>
+                    <a class="nav-link" href="single-post.php">Post Details</a>
                   </li>
                 </ul>
               </li>
@@ -115,10 +115,10 @@ if(isset($_SESSION['uname'])){
                            aria-expanded="false"><?php echo $username; ?></a>
                         <ul class="dropdown-menu">
                             <li class="nav-item">
-                                <a class="nav-link" href="blog.php">Profile Settings</a>
+                                <a class="nav-link" href="profilesettings.php">Profile Settings</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="single-blog.php">Logout</a>
+                                <a class="nav-link" href="logout.php">Logout</a>
                             </li>
                         </ul>
                     </li>

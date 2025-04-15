@@ -1,3 +1,10 @@
+<?php
+ob_start();
+session_start();
+include 'validation.php';
+include 'db_connection.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,8 +14,8 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="icon" href="img/favicon.png" type="image/png" />
-    <title>Blog Details</title>
+    <link rel="icon" href="img/sm-logo-new.png" type="image/png" />
+    <title>Problem Details</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css" />
     <link rel="stylesheet" href="css/flaticon.css" />
@@ -46,7 +53,7 @@
           <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <a class="navbar-brand" href="index.php">
-              <img class="logo-2" src="img/logo2.png" alt="" />
+              <img style="width: 100px;" class="logo-2" src="img/sm-logo-bgwhite.png" alt="" />
             </a>
             <button
               class="navbar-toggler"
@@ -96,6 +103,19 @@
                     </li>
                   </ul>
                 </li>
+
+                  <li class="nav-item submenu dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                         aria-expanded="false"><?php echo $username; ?></a>
+                      <ul class="dropdown-menu">
+                          <li class="nav-item">
+                              <a class="nav-link" href="profilesettings.php">Profile Settings</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="logout.php">Logout</a>
+                          </li>
+                      </ul>
+                  </li>
                 <li class="nav-item submenu dropdown active">
                   <a
                     href="#"
@@ -108,7 +128,7 @@
                   >
                   <ul class="dropdown-menu">
                     <li class="nav-item">
-                      <a class="nav-link" href="blog.php">Blog</a>
+                      <a class="nav-link" href="myposts.php">Blog</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" href="single-blog.html"
@@ -144,8 +164,8 @@
                 <h2>Blog Details</h2>
                 <div class="page_link">
                   <a href="index.php">Home</a>
-                  <a href="blog.php">Blog</a>
-                  <a href="single-blog.html">Blog Details</a>
+                  <a href="myposts.php">My Posts</a>
+                  <a href="single-post.php">Post Details</a>
                 </div>
               </div>
             </div>

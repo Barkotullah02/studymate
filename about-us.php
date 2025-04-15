@@ -108,10 +108,10 @@
                       >
                       <ul class="dropdown-menu">
                           <li class="nav-item">
-                              <a class="nav-link" href="blog.php">My Posts</a>
+                              <a class="nav-link" href="myposts.php">My Posts</a>
                           </li>
                           <li class="nav-item">
-                              <a class="nav-link" href="single-blog.php"
+                              <a class="nav-link" href="single-post.php"
                               >Post Details</a
                               >
                           </li>

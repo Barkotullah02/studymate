@@ -1,3 +1,9 @@
+<?php
+session_start();
+include 'validation.php';
+include 'db_connection.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +13,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="icon" href="img/favicon.png" type="image/png" />
+    <link rel="icon" href="img/sm-logo-new.png" type="image/png" />
     <title>Contact</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css" />
@@ -96,27 +102,39 @@
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Blog</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="blog.php">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="single-blog.php"
-                        >Blog Details</a
+                  <li class="nav-item submenu dropdown active">
+                      <a
+                              href="#"
+                              class="nav-link dropdown-toggle"
+                              data-toggle="dropdown"
+                              role="button"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                      >Daily Update</a
                       >
-                    </li>
-                  </ul>
-                </li>
+                      <ul class="dropdown-menu">
+                          <li class="nav-item">
+                              <a class="nav-link" href="myposts.php">My Posts</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="single-post.php"
+                              >Post Details</a
+                              >
+                          </li>
+                      </ul>
+                  </li>
+                  <li class="nav-item submenu dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                         aria-expanded="false"><?php echo $username; ?></a>
+                      <ul class="dropdown-menu">
+                          <li class="nav-item">
+                              <a class="nav-link" href="profilesettings.php">Profile Settings</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="logout.php">Logout</a>
+                          </li>
+                      </ul>
+                  </li>
                 <li class="nav-item active">
                   <a class="nav-link" href="contact.php">Contact</a>
                 </li>
@@ -172,17 +190,17 @@
             <div class="contact_info">
               <div class="info_item">
                 <i class="ti-home"></i>
-                <h6>California, United States</h6>
+                <h6>Dhaka, Bangladesh</h6>
                 <p>Santa monica bullevard</p>
               </div>
               <div class="info_item">
                 <i class="ti-headphone"></i>
-                <h6><a href="#">00 (440) 9865 562</a></h6>
+                <h6><a href="#">+8801566001546</a></h6>
                 <p>Mon to Fri 9am to 6 pm</p>
               </div>
               <div class="info_item">
                 <i class="ti-email"></i>
-                <h6><a href="#">support@colorlib.com</a></h6>
+                <h6><a href="#">studymate@gmail.com</a></h6>
                 <p>Send us your query anytime!</p>
               </div>
             </div>
@@ -248,7 +266,7 @@
                 </div>
               </div>
               <div class="col-md-12 text-right">
-                <button type="submit" value="submit" class="btn primary-btn">
+                <button type="submit" name="submit" value="submit" class="btn primary-btn">
                   Send Message
                 </button>
               </div>
@@ -305,7 +323,7 @@
             <div class="form-wrap" id="mc_embed_signup">
               <form
                 target="_blank"
-                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                action=""
                 method="get"
                 class="form-inline"
               >

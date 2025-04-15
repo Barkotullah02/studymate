@@ -1,3 +1,8 @@
+<?php
+session_start();
+include 'validation.php';
+include 'db_connection.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -7,7 +12,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="icon" href="img/favicon.png" type="image/png" />
+    <link rel="icon" href="img/sm-logo-new.png" type="image/png" />
     <title>Courses Details</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css" />
@@ -96,27 +101,39 @@
                     </li>
                   </ul>
                 </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Blog</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="blog.php">Blog</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="single-blog.php"
-                        >Blog Details</a
+                  <li class="nav-item submenu dropdown active">
+                      <a
+                              href="#"
+                              class="nav-link dropdown-toggle"
+                              data-toggle="dropdown"
+                              role="button"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                      >Daily Update</a
                       >
-                    </li>
-                  </ul>
-                </li>
+                      <ul class="dropdown-menu">
+                          <li class="nav-item">
+                              <a class="nav-link" href="myposts.php">My Posts</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="single-post.php"
+                              >Post Details</a
+                              >
+                          </li>
+                      </ul>
+                  </li>
+                  <li class="nav-item submenu dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                         aria-expanded="false"><?php echo $username; ?></a>
+                      <ul class="dropdown-menu">
+                          <li class="nav-item">
+                              <a class="nav-link" href="profilesettings.php">Profile Settings</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="logout.php">Logout</a>
+                          </li>
+                      </ul>
+                  </li>
                 <li class="nav-item">
                   <a class="nav-link" href="contact.php">Contact</a>
                 </li>
