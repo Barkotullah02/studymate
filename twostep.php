@@ -70,11 +70,7 @@ if (isset($_POST['verify'])) {
     if (trim($eotp) === trim((string)$realOtp)) {
         unset($_SESSION['otp']);
         $_SESSION['twostep'] = true;
-        echo "<script>
-            sessionStorage.setItem('otp_verified', true);
-            window.location.href='index.php';
-        </script>";
-        exit;
+        header("Location: index.php");
 
     } else {
         echo "<br><b style='color:red;'>Incorrect OTP. Please try again.</b>";
@@ -226,16 +222,6 @@ if (isset($_POST['verify'])) {
                 inputs[index - 1].focus();
             }
         });
-    });
-</script>
-
-
-<!-- Only send logout if not verified -->
-<script type="text/javascript">
-    window.addEventListener("beforeunload", function () {
-        if (!sessionStorage.getItem('otp_verified')) {
-            navigator.sendBeacon("logout.php");
-        }
     });
 </script>
 <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

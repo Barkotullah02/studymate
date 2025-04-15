@@ -104,9 +104,6 @@ if($_SESSION['twostep']){
               <li class="nav-item">
                 <a class="nav-link" href="login.php">Login</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="contact.php">Signup</a>
-              </li>
                 <?php }
                 else{
                 ?>

@@ -83,7 +83,7 @@ function escape_data($data){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Sign Up Form by Colorlib</title>
+    <title>User signup | login | StudyMate</title>
     <link rel="icon" href="img/sm-logo.png" type="image/x-icon">
 
     <!-- Font Icon -->

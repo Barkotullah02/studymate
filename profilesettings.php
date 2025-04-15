@@ -37,7 +37,14 @@ if (isset($_POST['update'])) {
     $organisation = escape_data($_POST['organisation']);
     $education = escape_data($_POST['education']);
 
-    $updateuserprofilequery = "UPDATE userdetails SET "
+    $updateuserprofilequery = "UPDATE userdetails SET about = '$about',
+                       education = '$education',
+                       country = '$country',
+                       phone = '$phone',
+                       address = '$address',
+                       job = '$job',
+                       company = '$organisation' where user_id = $id";
+    $updateuserprofileresult = mysqli_query($connection, $updateuserprofilequery);
 
     //echo $uimgname . $about . $phone . $address . $job . $country . $organisation . $education;
 
@@ -229,14 +236,14 @@ if (isset($_POST['update'])) {
                                             <span class="bii bi-mortarboard-fill me-2"></span>
                                             Education
                                         </h6>
-                                        <span>M.S Computer Science</span>
+                                        <span>BS Computer Science</span>
                                     </li>
                                     <li class="list-group-item">
                                         <h6 class="mb-1">
                                             <span class="bii bi-geo-alt-fill me-2"></span>
                                             Location
                                         </h6>
-                                        <span>Mountain View, California</span>
+                                        <span>Dhaka</span>
                                     </li>
                                 </ul>
                             </div>
@@ -537,6 +544,39 @@ if (isset($_POST['update'])) {
                                         <input type="submit" name="update" class="btn btn-outline-warning" value="Update Profile">
                                     </div>
                                 </form>
+
+
+                                <div class="container text-center">
+                                    <b>My posts</b>
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Title</th>
+                                            <th scope="col">Posted At</th>
+                                            <th scope="col">Action</th>
+                                        </tr>
+                                        </thead>
+                                    <?php
+                                    $postquery = "SELECT * FROM problems WHERE problems.student_id = $id ORDER BY problem_id DESC";
+                                    $postresult = mysqli_query($connection, $postquery);
+                                    while ($postrow = mysqli_fetch_assoc($postresult)) {
+                                        $serial = $postrow['problem_id'];
+                                        $title = $postrow['title'];
+                                        $date = $postrow['posted_at'];
+                                        ?>
+                                        <tbody>
+                                        <tr>
+                                            <th scope="row"><?php echo $serial; ?></th>
+                                            <td><?php echo $title; ?></td>
+                                            <td><?php echo $date; ?></td>
+                                            <td><a href="delete.php?serial=<?php echo $serial; ?>">Delete Post</a></td>
+                                        </tr>
+
+                                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
