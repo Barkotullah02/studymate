@@ -1,6 +1,8 @@
 <?php
 include 'db_connection.php';
 include 'validation.php';
+
+date_default_timezone_set("Asia/Dhaka");
 function escape_data($data){
     include 'db_connection.php';
 
@@ -24,8 +26,9 @@ if (isset($_POST['post'])) {
     $tmp_problemimage = $_FILES['problemimage']['tmp_name'];
     $problemimage = escape_data($_FILES['problemimage']['name']);
     $userid = intval($id);
+    $post_time = date('Y-m-d h:i:s');
 
-    $postQuery = "INSERT INTO `problems`(`student_id`, `subject_id`, `title`, `description`, `problem_img`) VALUE ($userid, $subjectid, '$title', '$description', '$problemimage')";
+    $postQuery = "INSERT INTO `problems`(`student_id`, `subject_id`, `title`, `description`, `posted_at`, `problem_img`) VALUE ($userid, $subjectid, '$title', '$description', '$post_time', '$problemimage')";
     $result = mysqli_query($connection, $postQuery);
     move_uploaded_file($tmp_problemimage, "img/problems/$problemimage");
 
@@ -274,7 +277,7 @@ if (isset($_POST['post'])) {
                                                                                             subjects.name AS subject_name 
                                                                                         FROM problems 
                                                                                         JOIN users ON problems.student_id = users.user_id 
-                                                                                        JOIN subjects ON problems.subject_id = subjects.subject_id");
+                                                                                        JOIN subjects ON problems.subject_id = subjects.subject_id order by problems.problem_id DESC");
 
                         while ($row = mysqli_fetch_assoc($problemsql)) {
                             $problem_id = $row['problem_id'];
