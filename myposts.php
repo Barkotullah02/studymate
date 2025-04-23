@@ -32,7 +32,6 @@ if (isset($_POST['post'])) {
     $result = mysqli_query($connection, $postQuery);
     move_uploaded_file($tmp_problemimage, "img/problems/$problemimage");
 
-    echo $title . $description . $subjectid . ' ' . $userid . $problemimage;
 }
 ?>
 
@@ -110,30 +109,32 @@ if (isset($_POST['post'])) {
                 <li class="nav-item">
                   <a class="nav-link" href="about-us.php">About</a>
                 </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Pages</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="courses.php">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="course-details.php"
-                        >Course Details</a
+                  <?php if ($usermode == 'tutor'){ ?>
+                    <li class="nav-item submenu dropdown">
+                      <a
+                        href="#"
+                        class="nav-link dropdown-toggle"
+                        data-toggle="dropdown"
+                        role="button"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        >Pages</a
                       >
+                      <ul class="dropdown-menu">
+                        <li class="nav-item">
+                          <a class="nav-link" href="courses.php">Courses</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="course-details.php"
+                            >Course Details</a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="elements.php">Elements</a>
+                        </li>
+                      </ul>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="elements.php">Elements</a>
-                    </li>
-                  </ul>
-                </li>
+                  <?php } ?>
                 <li class="nav-item submenu dropdown active">
                   <a
                     href="#"
@@ -268,6 +269,7 @@ if (isset($_POST['post'])) {
                                             </div>
                                         </div>
                                     </form>
+                                    <hr>
                                 </div>
                             </div>
                         </article>
@@ -308,35 +310,13 @@ if (isset($_POST['post'])) {
                                             <h2><?php echo $problem_title; ?></h2>
                                         </a>
                                         <p><?php echo $problem_description; ?></p>
-                                        <a href="single-post.php" class="blog_btn">View More</a>
+                                        <a href="single-post.php?problemid=<?php echo $problem_id; ?>" class="blog_btn">View More</a>
                                     </div>
                                 </div>
                             </div>
                         </article>
                         <?php } ?>
-                        <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
-                                        <span aria-hidden="true">
-                                            <i class="ti-angle-left"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                                <li class="page-item"><a href="#" class="page-link">01</a></li>
-                                <li class="page-item active"><a href="#" class="page-link">02</a></li>
-                                <li class="page-item"><a href="#" class="page-link">03</a></li>
-                                <li class="page-item"><a href="#" class="page-link">04</a></li>
-                                <li class="page-item"><a href="#" class="page-link">09</a></li>
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
-                                        <span aria-hidden="true">
-                                            <i class="ti-angle-right"></i>
-                                        </span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </nav>
+                        <hr>
                     </div>
                 </div>
                 <div class="col-lg-4">
@@ -352,94 +332,60 @@ if (isset($_POST['post'])) {
                         </aside>
                         <aside class="single_sidebar_widget popular_post_widget">
                             <h3 class="widget_title">Popular Posts</h3>
-                            <div class="media post_item">
-                                <img src="img/blog/popular-post/post1.jpg" alt="post">
-                                <div class="media-body">
-                                    <a href="blog-details.html">
-                                        <h3>Space The Final Frontier</h3>
-                                    </a>
-                                    <p>02 Hours ago</p>
+                            <?php
+                            $popular_problemsaql = "SELECT p.*, COUNT(c.comment_id) AS comment_count
+                                                                        FROM problems p
+                                                                        JOIN comments c ON p.problem_id = c.problem_id
+                                                                        GROUP BY p.problem_id, p.title
+                                                                        ORDER BY comment_count DESC
+                                                                        LIMIT 5;
+                                                                        ";
+                            $popular_problemresult = mysqli_query($connection, $popular_problemsaql);
+                            while ($popularRow = mysqli_fetch_assoc($popular_problemresult)) {
+                                $p_problem_id = $popularRow['problem_id'];
+                                $p_problem_title = $popularRow['title'];
+                                $p_postedate = $popularRow['posted_at'];
+                                $p_problem_image = $popularRow['problem_img'];
+                                ?>
+                                <div class="media post_item">
+                                    <img style="width: 100px" src="img/problems/<?php echo $p_problem_image; ?>" alt="post">
+                                    <div class="media-body">
+                                        <a href="single-post.php?problemid=<?php echo $p_problem_id; ?>">
+                                            <h3><?php echo $p_problem_title; ?></h3>
+                                        </a>
+                                        <p><?php echo $p_postedate; ?></p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="img/blog/popular-post/post2.jpg" alt="post">
-                                <div class="media-body">
-                                    <a href="blog-details.html">
-                                        <h3>The Amazing Hubble</h3>
-                                    </a>
-                                    <p>02 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="img/blog/popular-post/post3.jpg" alt="post">
-                                <div class="media-body">
-                                    <a href="blog-details.html">
-                                        <h3>Astronomy Or Astrology</h3>
-                                    </a>
-                                    <p>03 Hours ago</p>
-                                </div>
-                            </div>
-                            <div class="media post_item">
-                                <img src="img/blog/popular-post/post4.jpg" alt="post">
-                                <div class="media-body">
-                                    <a href="blog-details.html">
-                                        <h3>Asteroids telescope</h3>
-                                    </a>
-                                    <p>01 Hours ago</p>
-                                </div>
-                            </div>
+                            <?php } ?>
                             <div class="br"></div>
                         </aside>
                         <aside class="single_sidebar_widget ads_widget">
-                            <a href="#"><img class="img-fluid" src="img/blog/add.jpg" alt=""></a>
+                            <a href="#"><img class="img-fluid" src="img/sm-logo.png" alt=""></a>
                             <div class="br"></div>
                         </aside>
                         <aside class="single_sidebar_widget post_category_widget">
-                            <h4 class="widget_title">Post Catgories</h4>
+                            <h4 class="widget_title">Post Subjects</h4>
                             <ul class="list cat-list">
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Technology</p>
-                                        <p>37</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Lifestyle</p>
-                                        <p>24</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Fashion</p>
-                                        <p>59</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Art</p>
-                                        <p>29</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Food</p>
-                                        <p>15</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Architecture</p>
-                                        <p>09</p>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="d-flex justify-content-between">
-                                        <p>Adventure</p>
-                                        <p>44</p>
-                                    </a>
-                                </li>
-                            </ul>
+                                <?php
+                                $get_subject_sql = "SELECT s.name AS name, COUNT(p.problem_id) AS problem_count
+                                                                        FROM problems p
+                                                                        JOIN subjects s ON p.subject_id = s.subject_id
+                                                                        GROUP BY s.subject_id, s.name
+                                                                        ORDER BY problem_count DESC;
+                                                                        ";
+                                $get_subjectresult = mysqli_query($connection, $get_subject_sql);
+                                while ($subjectRow = mysqli_fetch_assoc($get_subjectresult)) {
+                                    $subject_name = $subjectRow['name'];
+                                    $problem_count = $subjectRow['problem_count'];
+
+                                    ?>
+                                    <li>
+                                        <a href="#" class="d-flex justify-content-between">
+                                            <p><?php echo $subject_name; ?></p>
+                                            <p><?php echo $problem_count; ?></p>
+                                        </a>
+                                    </li>
+                                <?php } ?>
                             <div class="br"></div>
                         </aside>
                         <aside class="single-sidebar-widget newsletter_widget">

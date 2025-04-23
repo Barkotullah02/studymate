@@ -50,7 +50,7 @@
           <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <a class="navbar-brand" href="index.php">
-              <img class="logo-2" style="width: 80px;"  src="img/sm-logo-new.png" alt="" />
+              <img class="logo-2" style="height: 80px;"  src="img/sm-logo-bgwhite.png" alt="" />
             </a>
             <button
               class="navbar-toggler"

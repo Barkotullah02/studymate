@@ -52,7 +52,7 @@ include 'db_connection.php';
           <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <a class="navbar-brand" href="index.php">
-              <img class="logo-2" src="img/logo2.png" alt="" />
+              <img style="height: 80px" class="logo-2" src="img/sm-logo-bgwhite.png" alt="" />
             </a>
             <button
               class="navbar-toggler"
@@ -78,30 +78,32 @@ include 'db_connection.php';
                 <li class="nav-item">
                   <a class="nav-link" href="about-us.php">About</a>
                 </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Pages</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="courses.php">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="course-details.php"
-                        >Course Details</a
+                  <?php if ($usermode == 'tutor'){ ?>
+                    <li class="nav-item submenu dropdown">
+                      <a
+                        href="#"
+                        class="nav-link dropdown-toggle"
+                        data-toggle="dropdown"
+                        role="button"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        >Teacher Tools</a
                       >
+                      <ul class="dropdown-menu">
+                        <li class="nav-item">
+                          <a class="nav-link" href="courses.php">Courses</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="course-details.php"
+                            >Course Details</a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="elements.php">Elements</a>
+                        </li>
+                      </ul>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="elements.php">Elements</a>
-                    </li>
-                  </ul>
-                </li>
+                  <?php } ?>
                   <li class="nav-item submenu dropdown active">
                       <a
                               href="#"
