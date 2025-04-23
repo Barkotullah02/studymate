@@ -18,14 +18,14 @@ function sendOTP() {
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
         $mail->Username = 'twostep.studymate@gmail.com';
-        $mail->Password = 'StudyMate@2025'; // Use app password
+        $mail->Password = 'rahpybchgvcqyhmg'; // Use app password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
         $mail->Port = 465;
 
         $mailto = $_SESSION['email'];
 
-        $mail->setFrom('barkotullah02@gmail.com', 'StudyMate');
-        $mail->addAddress($mailto, 'Opu');
+        $mail->setFrom('twostep.studymate@gmail.com', 'StudyMate');
+        $mail->addAddress($mailto, $_SESSION['name']);
 
         $mail->isHTML(true);
         $mail->Subject = 'OTP for login to StudyMate';

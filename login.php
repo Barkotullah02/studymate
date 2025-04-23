@@ -35,7 +35,7 @@ function escape_data($data){
     echo $re_pass;
 
      if($password == $re_pass){
-         // Hash the passwor
+         // Hash the password
 
 
          // Insert user data into database
