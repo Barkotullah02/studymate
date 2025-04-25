@@ -1,7 +1,37 @@
 <?php
-//session_start();
-//include 'validation.php';
-//?>
+session_start();
+include 'db_connection.php';
+include 'validation.php';
+function escape_data($data){
+    include 'db_connection.php';
+
+    $data = trim($data);
+
+    $data = stripslashes($data);
+
+    $data = htmlspecialchars($data);
+
+    $data = mysqli_real_escape_string($connection, $data);
+
+
+    return $data;
+
+}
+if (isset($_POST['addcourse'])){
+    $title = escape_data($_POST['title']);
+    $description = escape_data($_POST['description']);
+    $price = $_POST['price'];
+    $image = $_FILES['cover']['name'];
+    $imgfile = $_FILES['cover']['tmp_name'];
+
+    $courseQuery = "INSERT INTO courses (user_id, title, description, image, price) VALUES ($id, '$title', '$description', '$image', $price)";
+    $savedQuery = mysqli_query($connection, $courseQuery);
+    if ($savedQuery) {
+        move_uploaded_file($imgfile, "img/coursecovers/$image");
+    }
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -11,7 +41,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
     />
-    <link rel="icon" href="img/favicon.png" type="image/png" />
+    <link rel="icon" href="img/sm-logo.png" type="image/png" />
     <title>Courses</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css" />
@@ -19,7 +49,7 @@
     <link rel="stylesheet" href="css/themify-icons.css" />
     <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css" />
     <link rel="stylesheet" href="vendors/nice-select/css/nice-select.css" />
-    <!-- main css -->
+      <!-- main css -->
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
@@ -100,7 +130,7 @@
                     </li>
                   </ul>
                 </li>
-                  <li class="nav-item submenu dropdown active">
+                  <li class="nav-item submenu dropdown">
                       <a
                               href="#"
                               class="nav-link dropdown-toggle"
@@ -162,9 +192,35 @@
     <div class="popular_courses section_gap_top">
       <div class="container">
         <div class="row justify-content-center">
+            <div class="container col-sm-9">
+                <div class="container" id="courseresult">
+                </div>
+                <div class="container text-center"><h3><b>Add a course to be a tutor</b></h3></div>
+                <form method="post" class="card p-5 mb-3 bg-light" action="courses.php" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="formGroupExampleInput">Course title</label>
+                        <input name="title" type="text" class="form-control" id="" placeholder="Title">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Price</label>
+                        <input type="number" name="price" class="form-control" id="" placeholder="Price in usd">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Upload the cover of your course</label>
+                        <input type="file" class="form-control-file" name="cover" id="">
+                    </div>
+                    <div class="form-group">
+                        <label for="formGroupExampleInput2">Description</label>
+                        <textarea name="description" class="form-control" id="" placeholder="Add the description about your course"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="addcourse" class="form-control btn btn-success" value="ADD COURSE" id="" placeholder="Add the description about your course">
+                    </div>
+                </form>
+            </div>
           <div class="col-lg-5">
             <div class="main_title">
-              <h2 class="mb-3">Our Popular Courses</h2>
+              <h2 class="mb-3">Our Recent Courses</h2>
               <p>
                 Replenish man have thing gathering lights yielding shall you
               </p>
@@ -175,110 +231,112 @@
           <!-- single course -->
           <div class="col-lg-12">
             <div class="owl-carousel active_course">
-              <div class="single_course">
-                <div class="course_head">
-                  <img class="img-fluid" src="img/courses/c1.jpg" alt="" />
-                </div>
-                <div class="course_content">
-                  <span class="price">$25</span>
-                  <span class="tag mb-4 d-inline-block">design</span>
-                  <h4 class="mb-3">
-                    <a href="course-details.php">Custom Product Design</a>
-                  </h4>
-                  <p>
-                    One make creepeth man bearing their one firmament won't fowl
-                    meat over sea
-                  </p>
-                  <div
-                    class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
-                  >
-                    <div class="authr_meta">
-                      <img src="img/courses/author1.png" alt="" />
-                      <span class="d-inline-block ml-2">Cameron</span>
+                <?php
+                    $getCoursesQuery = "SELECT courses.*, users.image AS user_img, users.name FROM courses JOIN users ON courses.user_id = users.user_id ORDER BY course_id DESC LIMIT 3";
+                    $getCoursesQueryResult = mysqli_query($connection, $getCoursesQuery);
+                    while ($courseRow = mysqli_fetch_assoc($getCoursesQueryResult)) {
+                        $cover = $courseRow['image'];
+                        $title = $courseRow['title'];
+                        $description = $courseRow['description'];
+                        $price = $courseRow['price'];
+                        $tutorImage = $courseRow['user_img'];
+                        $tutorName = $courseRow['name'];
+                        $courseId = $courseRow['course_id'];
+                ?>
+                  <div class="single_course">
+                    <div class="course_head">
+                      <img class="img-fluid" src="img/coursecovers/<?php echo $cover; ?>" alt="" />
                     </div>
-                    <div class="mt-lg-0 mt-3">
-                      <span class="meta_info mr-4">
-                        <a href="#"> <i class="ti-user mr-2"></i>25 </a>
-                      </span>
-                      <span class="meta_info"
-                        ><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span
+                    <div class="course_content">
+                      <span class="price">$<?php echo $price; ?></span>
+                      <h4 class="mb-3">
+                        <a href="course-details.php?<?php echo $courseId; ?>"><?php echo $title; ?></a>
+                      </h4>
+                      <p>
+                          <?php echo $description; ?>
+                      </p>
+                      <div
+                        class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
                       >
+                        <div class="authr_meta">
+                          <img style="height: 40px; width: 40px" src="users/<?php echo $tutorImage; ?>" alt="" />
+                          <span class="d-inline-block ml-2"><?php echo $tutorName; ?></span>
+                        </div>
+                        <div class="mt-lg-0 mt-3">
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <div class="single_course">
-                <div class="course_head">
-                  <img class="img-fluid" src="img/courses/c2.jpg" alt="" />
-                </div>
-                <div class="course_content">
-                  <span class="price">$25</span>
-                  <span class="tag mb-4 d-inline-block">design</span>
-                  <h4 class="mb-3">
-                    <a href="course-details.php">Social Media Network</a>
-                  </h4>
-                  <p>
-                    One make creepeth man bearing their one firmament won't fowl
-                    meat over sea
-                  </p>
-                  <div
-                    class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
-                  >
-                    <div class="authr_meta">
-                      <img src="img/courses/author2.png" alt="" />
-                      <span class="d-inline-block ml-2">Cameron</span>
-                    </div>
-                    <div class="mt-lg-0 mt-3">
-                      <span class="meta_info mr-4">
-                        <a href="#"> <i class="ti-user mr-2"></i>25 </a>
-                      </span>
-                      <span class="meta_info"
-                        ><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="single_course">
-                <div class="course_head">
-                  <img class="img-fluid" src="img/courses/c3.jpg" alt="" />
-                </div>
-                <div class="course_content">
-                  <span class="price">$25</span>
-                  <span class="tag mb-4 d-inline-block">design</span>
-                  <h4 class="mb-3">
-                    <a href="course-details.php">Computer Engineering</a>
-                  </h4>
-                  <p>
-                    One make creepeth man bearing their one firmament won't fowl
-                    meat over sea
-                  </p>
-                  <div
-                    class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
-                  >
-                    <div class="authr_meta">
-                      <img src="img/courses/author3.png" alt="" />
-                      <span class="d-inline-block ml-2">Cameron</span>
-                    </div>
-                    <div class="mt-lg-0 mt-3">
-                      <span class="meta_info mr-4">
-                        <a href="#"> <i class="ti-user mr-2"></i>25 </a>
-                      </span>
-                      <span class="meta_info"
-                        ><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span
-                      >
-                    </div>
-                  </div>
-                </div>
-              </div>
+                <?php } ?>
             </div>
           </div>
         </div>
       </div>
     </div>
     <!--================ End Popular Courses Area =================-->
+
+    <!--================ Starts Course  Grid Area =================-->
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+                <script>
+                    $(document).ready(function(){
+                        $('#search_input').keyup(function(){
+                            const search = $('#search_input').val();
+                            $.ajax({
+                                url: "search.php",
+                                type: "POST",
+                                data: {
+                                    post: 'search',
+                                    search: search,
+                                },
+                                success: function(data){
+                                    $('#courseresult').html(data);
+                                }
+                            });
+                        });//#search
+                    }); //document.ready();
+                </script>
+        <div class="col-lg-12 align-items-center row justify-content-center">
+            <?php
+            $getCoursesQuery = "SELECT courses.*, users.image AS user_img, users.name FROM courses JOIN users ON courses.user_id = users.user_id ORDER BY course_id DESC";
+            $getCoursesQueryResult = mysqli_query($connection, $getCoursesQuery);
+            while ($courseRow = mysqli_fetch_assoc($getCoursesQueryResult)) {
+                $cover = $courseRow['image'];
+                $title = $courseRow['title'];
+                $description = $courseRow['description'];
+                $price = $courseRow['price'];
+                $tutorImage = $courseRow['user_img'];
+                $tutorName = $courseRow['name'];
+                $courseID = $courseRow['course_id'];
+                ?>
+                <div class="single_course d-inline-block col-sm-3" style="margin-bottom: 2.5%;">
+                    <div class="course_head">
+                        <img class="img-fluid" src="img/coursecovers/<?php echo $cover; ?>" alt="" />
+                    </div>
+                    <div class="course_content">
+                        <span class="price">$<?php echo $price; ?></span>
+                        <h4 class="mb-3">
+                            <a href="course-details.php?courseid=<?php echo $courseID; ?>"><?php echo $title; ?></a>
+                        </h4>
+                        <p>
+                            <?php echo $description; ?>
+                        </p>
+                        <div
+                                class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
+                        >
+                            <div class="authr_meta">
+                                <img style="height: 40px; width: 40px" src="users/<?php echo $tutorImage; ?>" alt="" />
+                                <span class="d-inline-block ml-2"><?php echo $tutorName; ?></span>
+                            </div>
+                            <div class="mt-lg-0 mt-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <?php } ?>
+        </div>
+    </div>
+    <!--================ End Starts Course  Grid Area =================-->
 
     <!--================ Start Registration Area =================-->
     <div class="section_gap registration_area">
@@ -506,9 +564,15 @@
     </footer>
     <!--================ End footer Area  =================-->
 
+
+
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="js/jquery-3.2.1.min.js"></script>
+
+    <!-- Place this at the end of your HTML, before </body> -->
+
+
     <script src="js/popper.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="vendors/nice-select/js/jquery.nice-select.min.js"></script>
@@ -517,7 +581,6 @@
     <script src="js/jquery.ajaxchimp.min.js"></script>
     <script src="js/mail-script.js"></script>
     <!--gmaps Js-->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="js/gmaps.min.js"></script>
     <script src="js/theme.js"></script>
   </body>

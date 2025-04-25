@@ -1,7 +1,6 @@
 <?php
 include 'db_connection.php';
 include 'validation.php';
-
 function escape_data($data){
     include 'db_connection.php';
 
@@ -36,6 +35,13 @@ if (isset($_POST['update'])) {
     $country = escape_data($_POST['country']);
     $organisation = escape_data($_POST['organisation']);
     $education = escape_data($_POST['education']);
+    $mode = escape_data($_POST['mode']);
+
+    $update_mode = "UPDATE users SET mode = '$mode' WHERE user_id = $id";
+    $update_moderesult = mysqli_query($connection, $update_mode);
+    if ($update_moderesult) {
+        $_SESSION['umode'] = $mode;
+    }
 
     $updateuserprofilequery = "UPDATE userdetails SET about = '$about',
                        education = '$education',
@@ -97,27 +103,29 @@ if (isset($_POST['update'])) {
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
                     <ul class="nav navbar-nav menu_nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="index.php">Home</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="about-us.php">About</a>
                         </li>
-                        <li class="nav-item submenu dropdown">
-                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                               aria-expanded="false">Pages</a>
-                            <ul class="dropdown-menu">
-                                <li class="nav-item">
-                                    <a class="nav-link" href="courses.php">Courses</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="course-details.php">Course Details</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="elements.php">Elements</a>
-                                </li>
-                            </ul>
-                        </li>
+                        <?php if ($usermode == 'tutor'){ ?>
+                            <li class="nav-item submenu dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                                   aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="courses.php">Courses</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="course-details.php">Course Details</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="elements.php">Elements</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        <?php } ?>
                         <li class="nav-item submenu dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                aria-expanded="false">Daily Updates</a>
@@ -133,7 +141,7 @@ if (isset($_POST['update'])) {
                         <li class="nav-item">
                             <a class="nav-link" href="contact.php">Contact</a>
                         </li>
-                            <li class="nav-item submenu dropdown">
+                            <li class="nav-item submenu dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                                    aria-expanded="false"><?php echo $username; ?></a>
                                 <ul class="dropdown-menu">
@@ -538,7 +546,14 @@ if (isset($_POST['update'])) {
                                     </div>
                                     <div class="col-12 mt-3">
                                         <label for="inputAbout" class="form-label">About</label>
-                                        <textarea class="form-control" name="about" id="inputAbout"><?php echo $userdetails['about'] ?></textarea>
+                                        <textarea class="form-control" name="about" id="inputAbout" placeholder=""><?php echo $userdetails['about'] ?></textarea>
+                                    </div>
+                                    <div class="col-12 mt-3">
+                                        <label for="inputAbout" class="form-label">Mode</label>
+                                        <select style="height: 80px !important; overflow-y: auto !important;" class="form-select col" name="mode" id="mode">
+                                            <option selected value="<?php echo $usermode; ?>"><?php echo $usermode; ?></option>
+                                            <option value="<?php if ($usermode == 'tutor'){echo 'student';} if ($usermode == 'student'){echo 'tutor';} ?>"><?php if ($usermode == 'tutor'){echo 'student';} if ($usermode == 'student'){echo 'tutor';} ?></option>
+                                        </select>
                                     </div>
                                     <div class="col-12 mt-3">
                                         <input type="submit" name="update" class="btn btn-outline-warning" value="Update Profile">

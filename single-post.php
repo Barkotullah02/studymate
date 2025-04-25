@@ -118,30 +118,32 @@ if (isset($_GET['problemid'])) {
                 <li class="nav-item">
                   <a class="nav-link" href="about-us.php">About</a>
                 </li>
-                <li class="nav-item submenu dropdown">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Pages</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="courses.php">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="course-details.php"
-                        >Course Details</a
+                  <?php if ($usermode == 'tutor'){ ?>
+                    <li class="nav-item submenu dropdown">
+                      <a
+                        href="#"
+                        class="nav-link dropdown-toggle"
+                        data-toggle="dropdown"
+                        role="button"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        >Pages</a
                       >
+                      <ul class="dropdown-menu">
+                        <li class="nav-item">
+                          <a class="nav-link" href="courses.php">Courses</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="course-details.php"
+                            >Course Details</a
+                          >
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="elements.php">Elements</a>
+                        </li>
+                      </ul>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="elements.php">Elements</a>
-                    </li>
-                  </ul>
-                </li>
+                  <?php } ?>
 
                   <li class="nav-item submenu dropdown">
                       <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"

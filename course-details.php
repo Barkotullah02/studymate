@@ -2,6 +2,15 @@
 session_start();
 include 'validation.php';
 include 'db_connection.php';
+$price = null;
+$tutorImage = null;
+$tutorName = null;
+$coursedetails = null;
+if (isset($_GET['courseid'])) {
+    $courseid = $_GET['courseid'];
+    $getCourseQuery = "SELECT courses.*, users.image AS user_img, users.name FROM courses JOIN users ON courses.user_id = users.user_id where course_id = $courseid";
+    $coursedetails = mysqli_query($connection, $getCourseQuery);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -176,101 +185,29 @@ include 'db_connection.php';
     <section class="course_details_area section_gap">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8 course_details_left">
-                    <div class="main_image">
-                        <img class="img-fluid" src="img/courses/course-details.jpg" alt="">
-                    </div>
-                    <div class="content_wrapper">
-                        <h4 class="title">Objectives</h4>
-                        <div class="content">
-                            When you enter into any new area of science, you almost always find yourself with a
-                            baffling new language of
-                            technical terms to learn before you can converse with the experts. This is certainly
-                            true in astronomy both in
-                            terms of terms that refer to the cosmos and terms that describe the tools of the trade,
-                            the most prevalent
-                            being the telescope.
-                            <br>
-                            <br>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore
-                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                            ut aliquip ex ea
-                            commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                            cillum. Lorem ipsum dolor sit
-                            amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim
-                            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum.
+                <?php
+                while ($courseRow = mysqli_fetch_assoc($coursedetails)) {
+                    $cover = $courseRow['image'];
+                    $title = $courseRow['title'];
+                    $description = $courseRow['description'];
+                    $price = $courseRow['price'];
+                    $tutorImage = $courseRow['user_img'];
+                    $tutorName = $courseRow['name'];
+                    $courseId = $courseRow['course_id'];
+                    ?>
+                    <div class="col-lg-8 course_details_left">
+                        <div class="main_image">
+                            <img class="img-fluid" src="img/coursecovers/<?php echo $cover; ?>" alt="">
                         </div>
-
-                        <h4 class="title">Eligibility</h4>
-                        <div class="content">
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore
-                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                            ut aliquip ex ea commodo
-                            consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.
-                            <br>
-                            <br>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                            incididunt ut labore et dolore
-                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi
-                            ut aliquip ex ea
-                            commodoconsequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-                            cillum. Lorem ipsum dolor sit
-                            amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                            dolore magna aliqua. Ut enim
-                            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                            commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum.
-                        </div>
-
-                        <h4 class="title">Course Outline</h4>
-                        <div class="content">
-                            <ul class="course_list">
-                                <li class="justify-content-between d-flex">
-                                    <p>Introduction Lesson</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Basics of HTML</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Getting Know about HTML</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Tags and Attributes</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Basics of CSS</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Getting Familiar with CSS</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Introduction to Bootstrap</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Responsive Design</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-                                <li class="justify-content-between d-flex">
-                                    <p>Canvas in HTML 5</p>
-                                    <a class="primary-btn text-uppercase" href="#">View Details</a>
-                                </li>
-
-                            </ul>
+                        <div class="content_wrapper">
+                            <h4 class="title">Objectives</h4>
+                            <div class="content">
+                                <p><h2><b><?php echo $title; ?></b></h2></p>
+                                <?php echo $description; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
+                <?php } ?>
 
 
                 <div class="col-lg-4 right-contents">
@@ -278,19 +215,19 @@ include 'db_connection.php';
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Trainer’s Name</p>
-                                <span class="or">George Mathews</span>
+                                <span class="or"><?php echo $tutorName; ?></span>
                             </a>
                         </li>
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Course Fee </p>
-                                <span>$230</span>
+                                <span>$<?php echo $price; ?></span>
                             </a>
                         </li>
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Available Seats </p>
-                                <span>15</span>
+                                <span>50</span>
                             </a>
                         </li>
                         <li>
@@ -310,43 +247,64 @@ include 'db_connection.php';
                                 <div class="d-flex flex-row reviews justify-content-between">
                                     <span>Quality</span>
                                     <div class="star">
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star"></i>
-                                        <i class="ti-star"></i>
-                                    </div>
-                                    <span>Outstanding</span>
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <span>Puncuality</span>
-                                    <div class="star">
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star"></i>
-                                        <i class="ti-star"></i>
-                                    </div>
-                                    <span>Outstanding</span>
-                                </div>
-                                <div class="d-flex flex-row reviews justify-content-between">
-                                    <span>Quality</span>
-                                    <div class="star">
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star checked"></i>
-                                        <i class="ti-star"></i>
-                                        <i class="ti-star"></i>
+                                        <i class="ti-star rs checked"></i>
+                                        <i class="ti-star rs checked"></i>
+                                        <i class="ti-star rs checked"></i>
+                                        <i class="ti-star rs"></i>
+                                        <i class="ti-star rs"></i>
                                     </div>
                                     <span>Outstanding</span>
                                 </div>
                             </div>
                         </div>
+                        <style>
+                            .rs:hover {
+                                cursor: pointer;
+                            }
+                        </style>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                $('.rs').on('click', function () {
+                                    let index = $(this).index(); // get the index of the clicked star
+
+                                    // First remove 'checked' from all
+                                    $('.rs').removeClass('checked');
+
+                                    // Add 'checked' to all previous + current stars
+                                    $('.rs').each(function (i) {
+                                        if (i <= index) {
+                                            $(this).addClass('checked');
+                                        }
+                                    });
+                                });
+
+                                $('#submitRating').on('click', function (evt) {
+                                    evt.preventDefault();
+                                    let feedback = $('#feedback').val();
+                                    let rating = $('.rs.checked').length;
+                                    $.ajax({
+                                        url: 'review.php',
+                                        type: 'POST',
+                                        data: {
+                                            courseid: '<?php echo $_GET['courseid']; ?>',
+                                            review: 'review',
+                                            feedback: feedback,
+                                            rating: rating
+                                        },
+                                        success: function (data) {
+                                            alert(data);
+                                        }
+                                    });
+                                });
+                            });
+                        </script>
+
                         <div class="feedeback">
                             <h6>Your Feedback</h6>
-                            <textarea name="feedback" class="form-control" cols="10" rows="10"></textarea>
+                            <textarea name="feedback" class="form-control" cols="10" rows="10" id="feedback"></textarea>
                             <div class="mt-10 text-right">
-                                <a href="#" class="primary-btn2 text-right rounded-0 text-white">Submit</a>
+                                <a href="#" class="primary-btn2 text-right rounded-0 text-white" id="submitRating">Submit</a>
                             </div>
                         </div>
                         <div class="comments-area mb-30">
@@ -362,7 +320,7 @@ include 'db_connection.php';
                                                     <span class="ti-star checked"></span>
                                                     <span class="ti-star checked"></span>
                                                     <span class="ti-star checked"></span>
-                                                    <span class="ti-star"></span>
+                                                    <span class="ti-star checked"></span>
                                                     <span class="ti-star"></span>
                                                 </div>
                                             </h5>

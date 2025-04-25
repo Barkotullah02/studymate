@@ -40,8 +40,17 @@ function escape_data($data){
 
          // Insert user data into database
          $sql = "INSERT INTO users (name, email, password) VALUES ('$name', '$email', '$hashed_pass')";
-        
+
          $result = mysqli_query($connection, $sql);
+         if ($result) {
+             $get_id = "SELECT user_id FROM users WHERE email = '$email'";
+             $user_id = mysqli_query($connection, $get_id);
+             while($idrow = mysqli_fetch_assoc($user_id)){
+                 $user_id = $idrow['user_id'];
+                 $getDetailsRelation = "INSERT INTO userdetails(user_id) VALUES ($user_id)";
+                 $details_query = mysqli_query($connection, $getDetailsRelation);
+             }
+         }
 
          $connection->close();
      } else {

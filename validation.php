@@ -10,7 +10,7 @@ $gender = "";
 if(isset($_SESSION['twostep']) && $_SESSION['twostep']){
     $username = $_SESSION['name'];
     $useremail = $_SESSION['email'];
-    $usermode = $_SESSION['mode'];
+    $usermode = $_SESSION['umode'];
     $userimage = $_SESSION['image'];
     $id = $_SESSION['id'];
     $gender = $_SESSION['gender'];

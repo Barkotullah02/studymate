@@ -68,7 +68,7 @@ if($_SESSION['twostep']){
               <li class="nav-item">
                 <a class="nav-link" href="about-us.php">About</a>
               </li>
-                <?php if ($usermode == 'tutor'){ ?>
+                <?php if ($_SESSION['umode'] == 'tutor'){ ?>
                   <li class="nav-item submenu dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                       aria-expanded="false">Pages</a>
