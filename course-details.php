@@ -8,6 +8,7 @@ $tutorName = null;
 $coursedetails = null;
 $courseid = null;
 $tutorid = null;
+$studentenrolled = false;
 if (isset($_GET['courseid'])) {
     $courseid = $_GET['courseid'];
     $getCourseQuery = "SELECT courses.*, users.user_id, users.image AS user_img, users.name FROM courses JOIN users ON courses.user_id = users.user_id where course_id = $courseid";
@@ -191,22 +192,44 @@ if (isset($_GET['courseid'])) {
                         <li>
                             <a class="justify-content-between d-flex" href="#">
                                 <p>Available Seats </p>
-                                <span>50</span>
+                                <?php
+                                $seatsql = "SELECT student_id, COUNT(*) AS seats from class where course_id = $courseId";
+                                $seatcountresult = mysqli_query($connection, $seatsql);
+                                while ($seatrow = mysqli_fetch_assoc($seatcountresult)) {
+                                    $seats = $seatrow['seats'];
+                                    if ($seatrow['student_id'] == $id) $studentenrolled = true;
+                                    ?>
+                                <span><?php echo 40 - $seats; ?></span>
                             </a>
                         </li>
-                        <li>
-                            <a class="justify-content-between d-flex" href="#">
-                                <p>Schedule </p>
-                                <span>2.00 pm to 4.00 pm</span>
-                            </a>
-                        </li>
+                            <?php if(!$studentenrolled){ ?>
+                                <button id="enroll" class="primary-btn2 text-uppercase enroll rounded-0 text-white">Enroll the course</button>
+                            <?php }
+                            } ?>
                     </ul>
                     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                    <button class="primary-btn2 text-uppercase enroll rounded-0 text-white">Enroll the course</button>
 
                     <script>
                         $(document).ready(function(){
-                            let
+                            const studentid = '<?php echo $id; ?>';
+                            const tutorid = '<?php echo $tutorid; ?>';
+                            const courseid = '<?php echo $courseid; ?>';
+                            $('#enroll').click(function(){
+                                $.ajax({
+                                    url: 'enroll.php',
+                                    type: 'POST',
+                                    data: {
+                                        save: 'enroll',
+                                        student_id: studentid,
+                                        tutor_id: tutorid,
+                                        course_id: courseid,
+                                    },
+                                    success: function(data){
+                                        console.log(data);
+                                    }
+                                });
+                                location.reload();
+                            });
                         });//document ready
                     </script>
 
@@ -267,6 +290,7 @@ if (isset($_GET['courseid'])) {
                                             $('.clearfeedback').html(data);
                                         }
                                     });
+                                    location.reload();
                                 });
                             });
                         </script>
@@ -278,6 +302,37 @@ if (isset($_GET['courseid'])) {
                             <div class="mt-10 text-right">
                                 <a href="#" class="primary-btn2 text-right rounded-0 text-white" id="submitRating">Submit</a>
                             </div>
+                            <span style="color: red; cursor: pointer;" id="dreport">Report this course</span>
+                            <div id="reportdiv" style="display: none;">
+                                <input type="text" id="reporttxt" name="reporttxt" class="form-control mt-1" placeholder="Why do you want to report?">
+                                <button id="submitReview" class="btn btn-danger mt-1">REPORT</button>
+                            </div>
+                            <script>
+                                $(document).ready(function () {
+                                    let report = 0;
+                                    $('#dreport').click(function () {
+                                        if (report == 0) $('#reportdiv').show();
+                                    });
+                                    $('#submitReview').click(function () {
+                                        const description = $('#reporttxt').val();
+                                        const courseid = '<?php echo $courseid; ?>';
+                                        $.ajax({
+                                            url: 'report.php',
+                                            type: 'POST',
+                                            data: {
+                                                coursereport: 'report',
+                                                courseid: courseid,
+                                                description: description
+                                            },
+                                            success: function (data) {
+                                                console.log(data);
+                                            }
+                                        });
+                                        report++;
+                                        $('#reportdiv').hide();
+                                    });
+                                });//document ready
+                            </script>
                         </div>
                         <div class="comments-area mb-30">
                             <?php
@@ -446,7 +501,6 @@ if (isset($_GET['courseid'])) {
           <script src="js/jquery.ajaxchimp.min.js"></script>
           <script src="js/mail-script.js"></script>
           <!--gmaps Js-->
-          <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
           <script src="js/gmaps.min.js"></script>
           <script src="js/theme.js"></script>
         </body>

@@ -173,23 +173,6 @@ if (isset($_POST['update'])) {
                                 $userdetails = mysqli_fetch_array($userdetailsresult);
                                 ?>
                                 <p class="text-center text-secondary mb-4"><?php echo $userdetails['job']; ?></p>
-                                <ul class="list-group list-group-flush mb-4">
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <h6 class="m-0">Followers</h6>
-                                        <span>7,854</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <h6 class="m-0">Following</h6>
-                                        <span>5,987</span>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-center">
-                                        <h6 class="m-0">Friends</h6>
-                                        <span>4,620</span>
-                                    </li>
-                                </ul>
-                                <div class="d-grid m-0">
-                                    <button class="btn btn-outline-primary" type="button">Follow</button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -230,6 +213,23 @@ if (isset($_POST['update'])) {
                                             Location
                                         </h6>
                                         <span>Dhaka</span>
+                                    </li>
+                                    <br class="list-group-item">
+                                        <h6 class="mb-1">
+                                            <span class="bii bi-geo-alt-fill me-2"></span>
+                                            Enrolled Courses
+                                        </h6>
+                                        <?php
+                                        $coursequery = "SELECT class.*, courses.title FROM class JOIN courses ON class.course_id = courses.course_id WHERE class.student_id = $id";
+                                        $courseresult = mysqli_query($connection, $coursequery);
+
+                                        while ($ctitlerow = mysqli_fetch_assoc($courseresult)){
+                                            $cTitle = $ctitlerow['title'];
+                                            $courseID = $ctitlerow['course_id'];
+                                            ?>
+                                        <span><a class="alert-link" href="course-details.php?courseid=<?php echo $courseID; ?>"><?php echo $cTitle; ?></a></span>
+
+                                        <?php } ?>
                                     </li>
                                 </ul>
                             </div>
@@ -274,7 +274,7 @@ if (isset($_POST['update'])) {
                                     </div>
                                     <div class="col-12 col-md-6 mt-3">
                                         <label for="inputCountry" class="form-label">Country</label>
-                                        <select name="country" style="height: 80px !important; overflow-y: auto !important;" class="form-select" id="inputCountry">
+                                        <select name="country" class="form-select" id="" size="5">
                                             <option value="<?php echo $userdetails['country']; ?>" selected><?php echo $userdetails['country']; ?></option>
                                             <option value="Afghanistan">Afghanistan</option>
                                             <option value="Åland Islands">Åland Islands</option>

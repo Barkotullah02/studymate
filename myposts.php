@@ -278,7 +278,7 @@ if (isset($_POST['post'])) {
                                 <div class="blog_post">
                                     <img src="img/problems/<?php echo $problem_image; ?>" alt="">
                                     <div class="blog_details">
-                                        <a href="single-post.php">
+                                        <a href="single-post.php?problemid=<?php echo $problem_id; ?>">
                                             <h2><?php echo $problem_title; ?></h2>
                                         </a>
                                         <p><?php echo $problem_description; ?></p>

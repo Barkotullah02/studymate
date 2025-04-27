@@ -398,6 +398,38 @@ if (isset($_GET['problemid'])) {
                             <p class="text-bottom">You can unsubscribe at any time</p>
                             <div class="br"></div>
                         </aside>
+                        <span style="color: red; cursor: pointer;" id="dreport">Report this course</span>
+                        <div id="reportdiv" style="display: none;">
+                            <input type="text" id="reporttxt" name="reporttxt" class="form-control mt-1" placeholder="Why do you want to report?">
+                            <button id="submitReview" class="btn btn-danger mt-1">REPORT</button>
+                        </div>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                let report = 0;
+                                $('#dreport').click(function () {
+                                    if (report == 0) $('#reportdiv').show();
+                                });
+                                $('#submitReview').click(function () {
+                                    const description = $('#reporttxt').val();
+                                    const problemid = '<?php echo $problemid; ?>';
+                                    $.ajax({
+                                        url: 'report.php',
+                                        type: 'POST',
+                                        data: {
+                                            problemreport: 'report',
+                                            problemid: problemid,
+                                            description: description
+                                        },
+                                        success: function (data) {
+                                            console.log(data);
+                                        }
+                                    });
+                                    report++;
+                                    $('#reportdiv').hide();
+                                });
+                            });//document ready
+                        </script>
                     </div>
                 </div>
             </div>
