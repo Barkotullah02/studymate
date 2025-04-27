@@ -1,3 +1,7 @@
+<?php
+include 'db_connection.php';
+include 'validation.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -72,50 +76,21 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="about-us.php">About</a>
                 </li>
-                  <?php if ($usermode == 'tutor'){ ?>
-                    <li class="nav-item submenu dropdown">
-                      <a
-                        href="#"
-                        class="nav-link dropdown-toggle"
-                        data-toggle="dropdown"
-                        role="button"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >Pages</a
-                      >
-                      <ul class="dropdown-menu">
-                        <li class="nav-item">
-                          <a class="nav-link" href="courses.php">Courses</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="course-details.php"
-                            >Course Details</a
-                          >
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="elements.php">Elements</a>
-                        </li>
-                      </ul>
-                    </li>
-                  <?php } ?>
+                  <li class="nav-item">
+                      <a class="nav-link" href="courses.php">Courses</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="myposts.php">Problems</a>
+                  </li>
                   <li class="nav-item submenu dropdown">
-                      <a
-                              href="#"
-                              class="nav-link dropdown-toggle"
-                              data-toggle="dropdown"
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                      >Daily Update</a
-                      >
+                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                         aria-expanded="false"><?php echo $username; ?></a>
                       <ul class="dropdown-menu">
                           <li class="nav-item">
-                              <a class="nav-link" href="myposts.php">My Posts</a>
+                              <a class="nav-link" href="profilesettings.php">Profile Settings</a>
                           </li>
                           <li class="nav-item">
-                              <a class="nav-link" href="single-post.php"
-                              >Post Details</a
-                              >
+                              <a class="nav-link" href="logout.php">Logout</a>
                           </li>
                       </ul>
                   </li>

@@ -106,48 +106,21 @@ if (isset($_POST['addcourse'])){
                 <li class="nav-item">
                   <a class="nav-link" href="about-us.php">About</a>
                 </li>
-                <li class="nav-item submenu dropdown active">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Pages</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
+                  <li class="nav-item active">
                       <a class="nav-link" href="courses.php">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="course-details.php"
-                        >Course Details</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="elements.php">Elements</a>
-                    </li>
-                  </ul>
-                </li>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="myposts.php">Problems</a>
+                  </li>
                   <li class="nav-item submenu dropdown">
-                      <a
-                              href="#"
-                              class="nav-link dropdown-toggle"
-                              data-toggle="dropdown"
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                      >Daily Update</a
-                      >
+                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                         aria-expanded="false"><?php echo $username; ?></a>
                       <ul class="dropdown-menu">
                           <li class="nav-item">
-                              <a class="nav-link" href="myposts.php">My Posts</a>
+                              <a class="nav-link" href="profilesettings.php">Profile Settings</a>
                           </li>
                           <li class="nav-item">
-                              <a class="nav-link" href="single-post.php"
-                              >Post Details</a
-                              >
+                              <a class="nav-link" href="logout.php">Logout</a>
                           </li>
                       </ul>
                   </li>
@@ -178,7 +151,7 @@ if (isset($_POST['addcourse'])){
                 <h2>Courses</h2>
                 <div class="page_link">
                   <a href="index.php">Home</a>
-                  <a href="courses.html">Courses</a>
+                  <a href="courses.php">Courses</a>
                 </div>
               </div>
             </div>
@@ -195,6 +168,7 @@ if (isset($_POST['addcourse'])){
             <div class="container col-sm-9">
                 <div class="container" id="courseresult">
                 </div>
+                <?php if ($usermode == 'tutor'){ ?>
                 <div class="container text-center"><h3><b>Add a course to be a tutor</b></h3></div>
                 <form method="post" class="card p-5 mb-3 bg-light" action="courses.php" enctype="multipart/form-data">
                     <div class="form-group">
@@ -217,6 +191,7 @@ if (isset($_POST['addcourse'])){
                         <input type="submit" name="addcourse" class="form-control btn btn-success" value="ADD COURSE" id="" placeholder="Add the description about your course">
                     </div>
                 </form>
+                <?php } ?>
             </div>
           <div class="col-lg-5">
             <div class="main_title">
@@ -250,7 +225,7 @@ if (isset($_POST['addcourse'])){
                     <div class="course_content">
                       <span class="price">$<?php echo $price; ?></span>
                       <h4 class="mb-3">
-                        <a href="course-details.php?<?php echo $courseId; ?>"><?php echo $title; ?></a>
+                        <a href="course-details.php?courseid=<?php echo $courseId; ?>"><?php echo $title; ?></a>
                       </h4>
                       <p>
                           <?php echo $description; ?>

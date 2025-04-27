@@ -109,53 +109,24 @@ if (isset($_POST['post'])) {
                 <li class="nav-item">
                   <a class="nav-link" href="about-us.php">About</a>
                 </li>
-                  <?php if ($usermode == 'tutor'){ ?>
-                    <li class="nav-item submenu dropdown">
-                      <a
-                        href="#"
-                        class="nav-link dropdown-toggle"
-                        data-toggle="dropdown"
-                        role="button"
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        >Pages</a
-                      >
+                  <li class="nav-item">
+                      <a class="nav-link" href="courses.php">Courses</a>
+                  </li>
+                  <li class="nav-item active">
+                      <a class="nav-link" href="myposts.php">Problems</a>
+                  </li>
+                  <li class="nav-item submenu dropdown">
+                      <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                         aria-expanded="false"><?php echo $username; ?></a>
                       <ul class="dropdown-menu">
-                        <li class="nav-item">
-                          <a class="nav-link" href="courses.php">Courses</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="course-details.php"
-                            >Course Details</a
-                          >
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="elements.php">Elements</a>
-                        </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="profilesettings.php">Profile Settings</a>
+                          </li>
+                          <li class="nav-item">
+                              <a class="nav-link" href="logout.php">Logout</a>
+                          </li>
                       </ul>
-                    </li>
-                  <?php } ?>
-                <li class="nav-item submenu dropdown active">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Daily Update</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
-                      <a class="nav-link" href="myposts.php">My Posts</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="single-post.php"
-                        >Post Details</a
-                      >
-                    </li>
-                  </ul>
-                </li>
+                  </li>
                 <li class="nav-item">
                   <a class="nav-link" href="contact.php">Contact</a>
                 </li>
@@ -210,6 +181,7 @@ if (isset($_POST['post'])) {
                             </div>
                             <div class="col-md-9">
                                 <div class="blog_post">
+                                    <div class="container" id="courseresult">
                                     <p style="text-align: center; color: #d39e00; font-size: 120%; font-weight: bold;">
                                         Post a problem<br>
                                         <span style="font-size: 70%; color: rgba(255,0,0,0.73); text-align: center;">The admins of StudyMate reserves all right to remove your post at any time</span>
@@ -323,7 +295,7 @@ if (isset($_POST['post'])) {
                     <div class="blog_right_sidebar">
                         <aside class="single_sidebar_widget search_widget">
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search Posts">
+                                <input type="text" id="search_problems" class="form-control" placeholder="Search Posts">
                                 <span class="input-group-btn">
                                     <button class="btn btn-default" type="button"><i class="ti-search"></i></button>
                                 </span>
@@ -505,6 +477,39 @@ if (isset($_POST['post'])) {
               </div>
             </div>
           </footer>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $('#search_input').keyup(function(){
+                    const search = $('#search_input').val();
+                    $.ajax({
+                        url: "search.php",
+                        type: "POST",
+                        data: {
+                            problems: 'search',
+                            search: search,
+                        },
+                        success: function(data){
+                            $('#courseresult').html(data);
+                        }
+                    });
+                });//#search
+                $('#search_problems').keyup(function(){
+                    const search = $('#search_problems').val();
+                    $.ajax({
+                        url: "search.php",
+                        type: "POST",
+                        data: {
+                            problems: 'search',
+                            search: search,
+                        },
+                        success: function(data){
+                            $('#courseresult').html(data);
+                        }
+                    });
+                });
+            }); //document.ready();
+        </script>
           <!--================ End footer Area  =================-->
       
           <!-- Optional JavaScript -->

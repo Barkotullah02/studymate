@@ -1,6 +1,7 @@
 <?php
 session_start();
 ob_start();
+include 'db_connection.php';
 
 
 $username = "";
@@ -68,22 +69,9 @@ if($_SESSION['twostep']){
               <li class="nav-item">
                 <a class="nav-link" href="about-us.php">About</a>
               </li>
-                <?php if ($_SESSION['umode'] == 'tutor'){ ?>
-                  <li class="nav-item submenu dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                      aria-expanded="false">Pages</a>
-                    <ul class="dropdown-menu">
-                      <li class="nav-item">
-                        <a class="nav-link" href="courses.php">Courses</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="course-details.php">Course Details</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="elements.php">Elements</a>
-                      </li>
-                    </ul>
-                  <?php } ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="courses.php">Courses</a>
+                </li>
               </li>
                 <?php if($logged_in){ ?>
                   <li class="nav-item submenu dropdown">
@@ -236,95 +224,43 @@ if($_SESSION['twostep']){
         <!-- single course -->
         <div class="col-lg-12">
           <div class="owl-carousel active_course">
-            <div class="single_course">
-              <div class="course_head">
-                <img class="img-fluid" src="img/courses/c1.jpg" alt="" />
-              </div>
-              <div class="course_content">
-                <span class="price">$25</span>
-                <span class="tag mb-4 d-inline-block">design</span>
-                <h4 class="mb-3">
-                  <a href="course-details.php">Custom Product Design</a>
-                </h4>
-                <p>
-                  One make creepeth man bearing their one firmament won't fowl
-                  meat over sea
-                </p>
-                <div
-                  class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
-                  <div class="authr_meta">
-                    <img src="img/courses/author1.png" alt="" />
-                    <span class="d-inline-block ml-2">Cameron</span>
+              <?php
+              $getCoursesQuery = "SELECT courses.*, users.image AS user_img, users.name FROM courses JOIN users ON courses.user_id = users.user_id ORDER BY course_id DESC LIMIT 3";
+              $getCoursesQueryResult = mysqli_query($connection, $getCoursesQuery);
+              while ($courseRow = mysqli_fetch_assoc($getCoursesQueryResult)) {
+                  $cover = $courseRow['image'];
+                  $title = $courseRow['title'];
+                  $description = $courseRow['description'];
+                  $price = $courseRow['price'];
+                  $tutorImage = $courseRow['user_img'];
+                  $tutorName = $courseRow['name'];
+                  $courseId = $courseRow['course_id'];
+                  ?>
+                  <div class="single_course">
+                      <div class="course_head">
+                          <img class="img-fluid" src="img/coursecovers/<?php echo $cover; ?>" alt="" />
+                      </div>
+                      <div class="course_content">
+                          <span class="price">$<?php echo $price; ?></span>
+                          <h4 class="mb-3">
+                              <a href="course-details.php?courseid=<?php echo $courseId; ?>"><?php echo $title; ?></a>
+                          </h4>
+                          <p>
+                              <?php echo $description; ?>
+                          </p>
+                          <div
+                                  class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4"
+                          >
+                              <div class="authr_meta">
+                                  <img style="height: 40px; width: 40px" src="users/<?php echo $tutorImage; ?>" alt="" />
+                                  <span class="d-inline-block ml-2"><?php echo $tutorName; ?></span>
+                              </div>
+                              <div class="mt-lg-0 mt-3">
+                              </div>
+                          </div>
+                      </div>
                   </div>
-                  <div class="mt-lg-0 mt-3">
-                    <span class="meta_info mr-4">
-                      <a href="#"> <i class="ti-user mr-2"></i>25 </a>
-                    </span>
-                    <span class="meta_info"><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="single_course">
-              <div class="course_head">
-                <img class="img-fluid" src="img/courses/c2.jpg" alt="" />
-              </div>
-              <div class="course_content">
-                <span class="price">$25</span>
-                <span class="tag mb-4 d-inline-block">design</span>
-                <h4 class="mb-3">
-                  <a href="course-details.php">Social Media Network</a>
-                </h4>
-                <p>
-                  One make creepeth man bearing their one firmament won't fowl
-                  meat over sea
-                </p>
-                <div
-                  class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
-                  <div class="authr_meta">
-                    <img src="img/courses/author2.png" alt="" />
-                    <span class="d-inline-block ml-2">Cameron</span>
-                  </div>
-                  <div class="mt-lg-0 mt-3">
-                    <span class="meta_info mr-4">
-                      <a href="#"> <i class="ti-user mr-2"></i>25 </a>
-                    </span>
-                    <span class="meta_info"><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="single_course">
-              <div class="course_head">
-                <img class="img-fluid" src="img/courses/c3.jpg" alt="" />
-              </div>
-              <div class="course_content">
-                <span class="price">$25</span>
-                <span class="tag mb-4 d-inline-block">design</span>
-                <h4 class="mb-3">
-                  <a href="course-details.php">Computer Engineering</a>
-                </h4>
-                <p>
-                  One make creepeth man bearing their one firmament won't fowl
-                  meat over sea
-                </p>
-                <div
-                  class="course_meta d-flex justify-content-lg-between align-items-lg-center flex-lg-row flex-column mt-4">
-                  <div class="authr_meta">
-                    <img src="img/courses/author3.png" alt="" />
-                    <span class="d-inline-block ml-2">Cameron</span>
-                  </div>
-                  <div class="mt-lg-0 mt-3">
-                    <span class="meta_info mr-4">
-                      <a href="#"> <i class="ti-user mr-2"></i>25 </a>
-                    </span>
-                    <span class="meta_info"><a href="#"> <i class="ti-heart mr-2"></i>35 </a></span>
-                  </div>
-                </div>
-              </div>
-            </div>
+              <?php } ?>
           </div>
         </div>
       </div>

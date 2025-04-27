@@ -6,9 +6,11 @@ $price = null;
 $tutorImage = null;
 $tutorName = null;
 $coursedetails = null;
+$courseid = null;
+$tutorid = null;
 if (isset($_GET['courseid'])) {
     $courseid = $_GET['courseid'];
-    $getCourseQuery = "SELECT courses.*, users.image AS user_img, users.name FROM courses JOIN users ON courses.user_id = users.user_id where course_id = $courseid";
+    $getCourseQuery = "SELECT courses.*, users.user_id, users.image AS user_img, users.name FROM courses JOIN users ON courses.user_id = users.user_id where course_id = $courseid";
     $coursedetails = mysqli_query($connection, $getCourseQuery);
 }
 ?>
@@ -86,50 +88,11 @@ if (isset($_GET['courseid'])) {
                 <li class="nav-item">
                   <a class="nav-link" href="about-us.php">About</a>
                 </li>
-                <li class="nav-item submenu dropdown active">
-                  <a
-                    href="#"
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Pages</a
-                  >
-                  <ul class="dropdown-menu">
-                    <li class="nav-item">
+                  <li class="nav-item">
+                      <a class="nav-link" href="myposts.php">Problems</a>
+                  </li>
+                  <li class="nav-item active">
                       <a class="nav-link" href="courses.php">Courses</a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="course-details.php"
-                        >Course Details</a
-                      >
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="elements.php">Elements</a>
-                    </li>
-                  </ul>
-                </li>
-                  <li class="nav-item submenu dropdown active">
-                      <a
-                              href="#"
-                              class="nav-link dropdown-toggle"
-                              data-toggle="dropdown"
-                              role="button"
-                              aria-haspopup="true"
-                              aria-expanded="false"
-                      >Daily Update</a
-                      >
-                      <ul class="dropdown-menu">
-                          <li class="nav-item">
-                              <a class="nav-link" href="myposts.php">My Posts</a>
-                          </li>
-                          <li class="nav-item">
-                              <a class="nav-link" href="single-post.php"
-                              >Post Details</a
-                              >
-                          </li>
-                      </ul>
                   </li>
                   <li class="nav-item submenu dropdown">
                       <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
@@ -194,6 +157,7 @@ if (isset($_GET['courseid'])) {
                     $tutorImage = $courseRow['user_img'];
                     $tutorName = $courseRow['name'];
                     $courseId = $courseRow['course_id'];
+                    $tutorid = $courseRow['user_id'];
                     ?>
                     <div class="col-lg-8 course_details_left">
                         <div class="main_image">
@@ -237,7 +201,15 @@ if (isset($_GET['courseid'])) {
                             </a>
                         </li>
                     </ul>
-                    <a href="#" class="primary-btn2 text-uppercase enroll rounded-0 text-white">Enroll the course</a>
+                    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                    <button class="primary-btn2 text-uppercase enroll rounded-0 text-white">Enroll the course</button>
+
+                    <script>
+                        $(document).ready(function(){
+                            let
+                        });//document ready
+                    </script>
+
 
                     <h4 class="title">Reviews</h4>
                     <div class="content">
@@ -262,7 +234,6 @@ if (isset($_GET['courseid'])) {
                                 cursor: pointer;
                             }
                         </style>
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                         <script>
                             $(document).ready(function () {
                                 $('.rs').on('click', function () {
@@ -293,12 +264,13 @@ if (isset($_GET['courseid'])) {
                                             rating: rating
                                         },
                                         success: function (data) {
-                                            alert(data);
+                                            $('.clearfeedback').html(data);
                                         }
                                     });
                                 });
                             });
                         </script>
+                        <div class="clearfeedback"></div>
 
                         <div class="feedeback">
                             <h6>Your Feedback</h6>
@@ -308,79 +280,60 @@ if (isset($_GET['courseid'])) {
                             </div>
                         </div>
                         <div class="comments-area mb-30">
+                            <?php
+                            $rating = null;
+                            $feedback = null;
+                            $getReviewQuery = "SELECT reviews.*, users.user_id, users.name, users.image FROM reviews JOIN users ON reviews.student_id = users.user_id WHERE course_id = $courseid";
+                            $getReviewQueryResult = mysqli_query($connection, $getReviewQuery);
+                            while ($reviewRow = mysqli_fetch_assoc($getReviewQueryResult)) {
+                                $name = $reviewRow['name'];
+                                $image = $reviewRow['image'];
+                                $feedback = $reviewRow['feedback'];
+                                $rating = $reviewRow['rating'];
+                                $userId = $reviewRow['user_id'];
+                                ?>
                             <div class="comment-list">
                                 <div class="single-comment single-reviews justify-content-between d-flex">
                                     <div class="user justify-content-between d-flex">
                                         <div class="thumb">
-                                            <img src="img/blog/c1.jpg" alt="">
+                                            <img width="60px" src="users/<?php echo $image; ?>" alt="">
                                         </div>
+                                        <input type="hidden" class="reviewer-id" value="<?php echo $userId; ?>">
+                                        <input type="hidden" id="currentUserId" value="<?php echo $id; ?>"
                                         <div class="desc">
-                                            <h5><a href="#">Emilly Blunt</a>
+                                            <h5><a href="#" class="reviewer"><?php echo $name; ?></a>
                                                 <div class="star">
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star"></span>
+                                                    <?php for ($i = 1; $i <= 5; $i++){ ?>
+                                                        <span class="ti-star <?php echo ($i <= $rating) ? 'checked' : ''; ?>"></span>
+                                                    <?php } ?>
                                                 </div>
                                             </h5>
                                             <p class="comment">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                eiusmod tempor incididunt ut labore et dolore.
+                                                <?php echo $feedback; ?>
                                             </p>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="comment-list">
-                                <div class="single-comment single-reviews justify-content-between d-flex">
-                                    <div class="user justify-content-between d-flex">
-                                        <div class="thumb">
-                                            <img src="img/blog/c2.jpg" alt="">
-                                        </div>
-                                        <div class="desc">
-                                            <h5><a href="#">Elsie Cunningham</a>
-                                                <div class="star">
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star"></span>
-                                                    <span class="ti-star"></span>
-                                                </div>
-                                            </h5>
-                                            <p class="comment">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                eiusmod tempor incididunt ut labore et dolore.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="comment-list">
-                                <div class="single-comment single-reviews justify-content-between d-flex">
-                                    <div class="user justify-content-between d-flex">
-                                        <div class="thumb">
-                                            <img src="img/blog/c3.jpg" alt="">
-                                        </div>
-                                        <div class="desc">
-                                            <h5><a href="#">Maria Luna</a>
-                                                <div class="star">
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star checked"></span>
-                                                    <span class="ti-star"></span>
-                                                    <span class="ti-star"></span>
-                                                </div>
-                                            </h5>
-                                            <p class="comment">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                                                eiusmod tempor incididunt ut labore et dolore.
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <?php } ?>
                         </div>
+                        <script>
+                            $(document).ready(function () {
+                                const currentUser = $('#currentUserId').val();
+                                let isReviewed = false;
+
+                                $('.reviewer-id').each(function () {
+                                    if ($(this).val() == currentUser) {
+                                        isReviewed = true;
+                                        return false; // exit early if matched
+                                    }
+                                });
+
+                                if (isReviewed) {
+                                    $('#submitRating').css('visibility', 'hidden');
+                                }
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
