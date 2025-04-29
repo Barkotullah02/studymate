@@ -1,39 +1,90 @@
 <?php
-include "validate.php";
 include "db_connection.php";
+include "validate.php";
 
-if (isset($_POST['add'])) {
+if (isset($_POST['update'])) {
 
     $password = $_POST['password'];
 
+
+    /*
+    * Updating user data if the password matches
+    */
     if ($password == $db_password) {
 
-        $full_name = $_POST['full_name'];
         $username = $_POST['username'];
+        $fullName = $_POST['full_name'];
         $image = $_FILES['image']['name'];
         $tmp_image = $_FILES['image']['tmp_name'];
-        $new_password = $_POST['new_password'];
 
-
-        $full_name = mysqli_real_escape_string($connection, $full_name);
         $username = mysqli_real_escape_string($connection, $username);
-        $new_password = mysqli_real_escape_string($connection, $new_password);
+        $fullName = mysqli_real_escape_string($connection, $fullName);
+        $image = mysqli_real_escape_string($connection, $image);
 
-        $query = "INSERT INTO admin_user(username, password, full_name, image, role) ";
-        $query .= "VALUES ('$username', '$new_password', '$full_name', '$image', 'admin')";
+        $query = "UPDATE admin_user SET ";
+        $query .= "username = '$username', ";
+        $query .= "full_name = '$fullName' ";
+        $query .= "WHERE password = '$password'";
 
-        $insert = mysqli_query($connection, $query);
+        $update = mysqli_query($connection, $query);
+
+        if (empty($image)) {
+
+            echo "Image not entered";
+        }
+        
+        else if (!empty($image)) {
+
+        /*
+        * Updating image if image had entered
+        */
+
+        $img_query = "UPDATE admin_user SET ";
+        $img_query .= "image = '$image' ";
+        $img_query .= "WHERE password = '$password'";
+
+        $img_update = mysqli_query($connection, $img_query);
 
         move_uploaded_file($tmp_image, "admin_img/$image");
+        }
 
-
+        
 
     }
-    elseif ($password != $db_password) {
 
-        header("Location: new_admin.php?source=password_does_not_match");
+    else if($password != $db_password){
+
+        echo "Failed to update";
+
+    }
+
+
+    
+}
+
+if (isset($_POST['delete_password'])) {
+
+    $delete_password = $_POST['delete_password'];
+
+
+    /*
+    * Updating user data if the password matches
+    */
+    if ($delete_password == $db_password) {
+        $delete = "DELETE FROM admin_user ";
+        $delete .= "WHERE password = '$delete_password' ";
+
+        $delete_query = mysqli_query($connection, $delete);
+        header("Location: logout.php");
+    }
+
+    else if($delete_password != $db_password){
+
+        echo "Failed to delete";
+
     }
 }
+        
 ?>
 
 <!DOCTYPE html>
@@ -47,13 +98,14 @@ if (isset($_POST['add'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin panel template by StudyMate</title>
+    <title>Admin panel template by Barkotullah</title>
 
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="css/cec-admin.css" rel="stylesheet">
+
 
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -75,7 +127,7 @@ if (isset($_POST['add'])) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">StudyMate ADMIN</a>
+                <a class="navbar-brand" href="index.php">NSU CEC ADMIN</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -85,6 +137,9 @@ if (isset($_POST['add'])) {
                     <ul class="dropdown-menu">
                         <li>
                             <a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Messages</a>
                         </li>
                         <li>
                             <a href="settings.php"><i class="fa fa-fw fa-gear"></i> Settings</a>
@@ -103,17 +158,29 @@ if (isset($_POST['add'])) {
                         <a href="#"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="users.php"><i class="fa fa-fw fa-user"></i> Users</a>
+                        <a href="#"><i class="fa fa-fw fa-envelope"></i> Messages</a>
                     </li>
                     <li>
                         <a href="new_admin.php"><i class="fa fa-fw fa-plus"></i> Add new admin</a>
                     </li>
                     <li>
+                        <a href="#"><i class="fa fa-fw fa-table"></i> Forms</a>
+                    </li>
+                    <li>
                         <a href="post_action.php"><i class="fa fa-edit"></i> Take action to a post</a>
+                    </li>
+                    <li>
+                        <a href="add_post.php"><i class="fa fa-fw fa-desktop"></i> ADD post</a>
                     </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Other actions <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
+                            <li>
+                                <a href="add_new_user.php">Add new user</a>
+                            </li>
+                            <li>
+                                <a href="edit_home.php">Edit Homepage</a>
+                            </li>
                             <li>
                                 <a href="#">Dropdown Item</a>
                             </li>
@@ -130,23 +197,24 @@ if (isset($_POST['add'])) {
 
                 <!-- Page Heading -->
                 <div class="row">
-                    <div class="container col-xs-12">
-                        <form action="new_admin.php" method="post" enctype="multipart/form-data" class="form-group">
-                            <label for="full_name" >Enter full name</label>
-                            <input class="form-control" placeholder="Full name" type="text" name="full_name"><br>
-                            <label for="image" >Enter an image of new admin</label>
+                        <div class="container-fluid col-xs-12">
+                            <form action="settings.php" method="post" enctype="multipart/form-data" class="form-group">
+                            <label for="full_name" >Full name</label>
+                            <input class="form-control" value="<?php echo $full_name; ?>" type="text" name="full_name"><br>
+                            <label for="image" >Update image</label>
                             <input class="form-control" type="file" name="image"><br>
-                            <label for="username" >Enter new username</label>
-                            <input class="form-control" placeholder="Username" type="text" name="username"><br>
-                            <label for="new_password" >Enter password for new admin</label>
-                            <input class="form-control" placeholder="New password" type="password" name="new_password"><br>
-                            <label for="password" >Enter your password to add new admin</label>
+                            <label for="username" >Update username</label>
+                            <input class="form-control" value="<?php echo $db_username; ?>" type="text" name="username"><br>
+                            <label for="password" >Enter your password to update data</label>
                             <input class="form-control" placeholder="password" type="password" name="password"><br>
-                            <input class="form-control btn btn-primary" value="ADD NEW ADMIN" type="submit" name="add"><br>
+                            <input class="form-control btn btn-primary" value="UPDATE DATA" type="submit" name="update"><br>
                         </form>
-                    </div>
-               
-                    </div>
+                        <form action="settings.php" method="post" class="form-group">
+                            <label for="password" >Enter your password to delete account</label>
+                            <input class="form-control" placeholder="password" type="password" name="delete_password"><br>
+                            <input class="btn btn-danger" value="DELETE ACCOUNT" type="submit" name="delete"><br>
+                        </form>
+                        </div>
                 </div>
                 <!-- /.row -->
 
@@ -157,6 +225,7 @@ if (isset($_POST['add'])) {
         <!-- /#page-wrapper -->
 
     </div>
+
     <!-- /#wrapper -->
 
     <!-- jQuery -->
@@ -164,6 +233,8 @@ if (isset($_POST['add'])) {
 
     <!-- JavaScript -->
     <script src="js/bootstrap.min.js"></script>
+
+
 
 </body>
 

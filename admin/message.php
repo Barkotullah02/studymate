@@ -1,39 +1,5 @@
 <?php
 include "validate.php";
-include "db_connection.php";
-
-if (isset($_POST['add'])) {
-
-    $password = $_POST['password'];
-
-    if ($password == $db_password) {
-
-        $full_name = $_POST['full_name'];
-        $username = $_POST['username'];
-        $image = $_FILES['image']['name'];
-        $tmp_image = $_FILES['image']['tmp_name'];
-        $new_password = $_POST['new_password'];
-
-
-        $full_name = mysqli_real_escape_string($connection, $full_name);
-        $username = mysqli_real_escape_string($connection, $username);
-        $new_password = mysqli_real_escape_string($connection, $new_password);
-
-        $query = "INSERT INTO admin_user(username, password, full_name, image, role) ";
-        $query .= "VALUES ('$username', '$new_password', '$full_name', '$image', 'admin')";
-
-        $insert = mysqli_query($connection, $query);
-
-        move_uploaded_file($tmp_image, "admin_img/$image");
-
-
-
-    }
-    elseif ($password != $db_password) {
-
-        header("Location: new_admin.php?source=password_does_not_match");
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +13,7 @@ if (isset($_POST['add'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin panel template by StudyMate</title>
+    <title>Admin panel template by Barkotullah</title>
 
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -58,7 +24,67 @@ if (isset($_POST['add'])) {
     <!-- Custom Fonts -->
     <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
+    <style type="text/css">
+        .profile-data{
+            margin-left: 20px; 
+            font-family: fantasy;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .msg-view{
+            width: 100%;
+            height: 560px;
+        }
 
+        /* width */
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #222222d9;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+    #msg-body{
+        width: 100%;
+        height: 500px;
+        border-bottom: 1px solid gray;
+        overflow: auto;
+        display: flex;
+        flex-direction: column-reverse;
+    }
+    .input-txt{
+        width: 80%;
+        float: left;
+    }
+    .send-btn{
+        float: right;
+    }
+
+
+    @media(max-width: 320px){ 
+        .input-txt{
+            width: 180px;
+            float: left;
+        }
+        .send-btn{
+            float: right;
+        }
+    }
+
+    </style>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
 </head>
 
 <body>
@@ -75,7 +101,7 @@ if (isset($_POST['add'])) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">StudyMate ADMIN</a>
+                <a class="navbar-brand" href="index.php">NSU CEC ADMIN</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -84,7 +110,7 @@ if (isset($_POST['add'])) {
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <?php echo $full_name; ?> <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <li>
-                            <a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
+                            <a href="#"><i class="fa fa-fw fa-user"></i> Profile</a>
                         </li>
                         <li>
                             <a href="settings.php"><i class="fa fa-fw fa-gear"></i> Settings</a>
@@ -103,10 +129,13 @@ if (isset($_POST['add'])) {
                         <a href="#"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="users.php"><i class="fa fa-fw fa-user"></i> Users</a>
+                        <a href="message.php"><i class="fa fa-fw fa-envelope"></i> Messages</a>
                     </li>
                     <li>
                         <a href="new_admin.php"><i class="fa fa-fw fa-plus"></i> Add new admin</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-table"></i> Forms</a>
                     </li>
                     <li>
                         <a href="post_action.php"><i class="fa fa-edit"></i> Take action to a post</a>
@@ -115,7 +144,7 @@ if (isset($_POST['add'])) {
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Other actions <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
                             <li>
-                                <a href="#">Dropdown Item</a>
+                                <a href="">Actions</a>
                             </li>
                         </ul>
                     </li>
@@ -124,28 +153,66 @@ if (isset($_POST['add'])) {
             <!-- /.navbar-collapse -->
         </nav>
 
+        <script type="text/javascript">
+
+            
+            $(document).ready(function () {
+
+                setInterval(function () {
+                    update_msg();
+                }, 500);
+
+                $('#add-msg-form').submit(function(evt) {
+
+                evt.preventDefault();
+
+                let postData = $(this).serialize();
+                let url = $(this).attr('action');
+                $.post(url, postData, function() {
+
+                });
+
+                document.getElementById('add-msg-form')['txt-msg'].value = '';
+
+
+            });
+
+                function update_msg() {
+                    $.ajax({
+                    url: "display_msg.php",
+                    type: "POST",
+                    success: function (show_msg) {
+
+                        $('#msg-body').html(show_msg);
+
+                    }
+                });
+
+                }
+
+
+            });
+
+            
+        </script>
+
+        <script type="text/javascript">
+        </script>
+
         <div id="page-wrapper" style="background:#e1e0e0ba;">
 
             <div class="container-fluid">
 
                 <!-- Page Heading -->
                 <div class="row">
-                    <div class="container col-xs-12">
-                        <form action="new_admin.php" method="post" enctype="multipart/form-data" class="form-group">
-                            <label for="full_name" >Enter full name</label>
-                            <input class="form-control" placeholder="Full name" type="text" name="full_name"><br>
-                            <label for="image" >Enter an image of new admin</label>
-                            <input class="form-control" type="file" name="image"><br>
-                            <label for="username" >Enter new username</label>
-                            <input class="form-control" placeholder="Username" type="text" name="username"><br>
-                            <label for="new_password" >Enter password for new admin</label>
-                            <input class="form-control" placeholder="New password" type="password" name="new_password"><br>
-                            <label for="password" >Enter your password to add new admin</label>
-                            <input class="form-control" placeholder="password" type="password" name="password"><br>
-                            <input class="form-control btn btn-primary" value="ADD NEW ADMIN" type="submit" name="add"><br>
-                        </form>
-                    </div>
-               
+                    <div class="col-xs-12 msg-view">
+                        <div class="message-body" id="msg-body"></div>
+                        <div class="type-bar">
+                            <form class="form-group" id="add-msg-form" method="post" action="add_msg.php">
+                                <input placeholder="Type a message" class="form-control input-txt" type="text" name="txt-msg" id="txt-msg" required>
+                                <input onclick="clearTxt()" type="submit" class="btn btn-primary send-btn" value="SEND">
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <!-- /.row -->

@@ -69,23 +69,13 @@ if($_SESSION['twostep']){
               <li class="nav-item">
                 <a class="nav-link" href="about-us.php">About</a>
               </li>
+                <?php if($logged_in){ ?>
                 <li class="nav-item">
                     <a class="nav-link" href="courses.php">Courses</a>
                 </li>
-              </li>
-                <?php if($logged_in){ ?>
-                  <li class="nav-item submenu dropdown">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                      aria-expanded="false">Daily Updates</a>
-                    <ul class="dropdown-menu">
-                      <li class="nav-item">
-                        <a class="nav-link" href="myposts.php">My Posts</a>
-                      </li>
-                      <li class="nav-item">
-                        <a class="nav-link" href="single-post.php">Post Details</a>
-                      </li>
-                    </ul>
-                  </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="myposts.php">Problems</a>
+                </li>
                 <?php } ?>
               <li class="nav-item">
                 <a class="nav-link" href="contact.php">Contact</a>

@@ -88,7 +88,7 @@ if (isset($_POST['login'])) {
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
-    <title>Login to NSU-CEC admin panel</title>
+    <title>Login to StudyMate admin panel</title>
 
     <style type="text/css">
         body{

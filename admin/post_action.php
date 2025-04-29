@@ -1,39 +1,10 @@
 <?php
-include "validate.php";
 include "db_connection.php";
+include "validate.php";
 
-if (isset($_POST['add'])) {
+$query = "SELECT reports.*, problems.title, problems.problem_img FROM reports JOIN problems ON problems.problem_id = reports.problem_id WHERE reports.problem_id is not null";
 
-    $password = $_POST['password'];
-
-    if ($password == $db_password) {
-
-        $full_name = $_POST['full_name'];
-        $username = $_POST['username'];
-        $image = $_FILES['image']['name'];
-        $tmp_image = $_FILES['image']['tmp_name'];
-        $new_password = $_POST['new_password'];
-
-
-        $full_name = mysqli_real_escape_string($connection, $full_name);
-        $username = mysqli_real_escape_string($connection, $username);
-        $new_password = mysqli_real_escape_string($connection, $new_password);
-
-        $query = "INSERT INTO admin_user(username, password, full_name, image, role) ";
-        $query .= "VALUES ('$username', '$new_password', '$full_name', '$image', 'admin')";
-
-        $insert = mysqli_query($connection, $query);
-
-        move_uploaded_file($tmp_image, "admin_img/$image");
-
-
-
-    }
-    elseif ($password != $db_password) {
-
-        header("Location: new_admin.php?source=password_does_not_match");
-    }
-}
+$data = mysqli_query($connection, $query);
 ?>
 
 <!DOCTYPE html>
@@ -47,7 +18,7 @@ if (isset($_POST['add'])) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin panel template by StudyMate</title>
+    <title>Admin panel template by Barkotullah</title>
 
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -75,7 +46,7 @@ if (isset($_POST['add'])) {
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.php">StudyMate ADMIN</a>
+                <a class="navbar-brand" href="index.php">NSU CEC ADMIN</a>
             </div>
             <!-- Top Menu Items -->
             <ul class="nav navbar-right top-nav">
@@ -85,6 +56,9 @@ if (isset($_POST['add'])) {
                     <ul class="dropdown-menu">
                         <li>
                             <a href="profile.php"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-fw fa-envelope"></i> Messages</a>
                         </li>
                         <li>
                             <a href="settings.php"><i class="fa fa-fw fa-gear"></i> Settings</a>
@@ -100,7 +74,7 @@ if (isset($_POST['add'])) {
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav" style="height: 100%;">
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                        <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                     </li>
                     <li>
                         <a href="users.php"><i class="fa fa-fw fa-user"></i> Users</a>
@@ -109,11 +83,23 @@ if (isset($_POST['add'])) {
                         <a href="new_admin.php"><i class="fa fa-fw fa-plus"></i> Add new admin</a>
                     </li>
                     <li>
+                        <a href="#"><i class="fa fa-fw fa-table"></i> Forms</a>
+                    </li>
+                    <li>
                         <a href="post_action.php"><i class="fa fa-edit"></i> Take action to a post</a>
+                    </li>
+                    <li>
+                        <a href="add_post.php"><i class="fa fa-fw fa-desktop"></i> ADD post</a>
                     </li>
                     <li>
                         <a href="javascript:;" data-toggle="collapse" data-target="#demo"><i class="fa fa-fw fa-arrows-v"></i> Other actions <i class="fa fa-fw fa-caret-down"></i></a>
                         <ul id="demo" class="collapse">
+                            <li>
+                                <a href="add_new_user.php">Add new user</a>
+                            </li>
+                            <li>
+                                <a href="edit_home.php">Edit Homepage</a>
+                            </li>
                             <li>
                                 <a href="#">Dropdown Item</a>
                             </li>
@@ -130,22 +116,46 @@ if (isset($_POST['add'])) {
 
                 <!-- Page Heading -->
                 <div class="row">
-                    <div class="container col-xs-12">
-                        <form action="new_admin.php" method="post" enctype="multipart/form-data" class="form-group">
-                            <label for="full_name" >Enter full name</label>
-                            <input class="form-control" placeholder="Full name" type="text" name="full_name"><br>
-                            <label for="image" >Enter an image of new admin</label>
-                            <input class="form-control" type="file" name="image"><br>
-                            <label for="username" >Enter new username</label>
-                            <input class="form-control" placeholder="Username" type="text" name="username"><br>
-                            <label for="new_password" >Enter password for new admin</label>
-                            <input class="form-control" placeholder="New password" type="password" name="new_password"><br>
-                            <label for="password" >Enter your password to add new admin</label>
-                            <input class="form-control" placeholder="password" type="password" name="password"><br>
-                            <input class="form-control btn btn-primary" value="ADD NEW ADMIN" type="submit" name="add"><br>
-                        </form>
-                    </div>
-               
+                    <br class="col-lg-12">
+                        <div class="text-center"><b style="color: #ffffff;"><h3>Reports From Problems</h3></b></div>
+                        <table class="table">
+                            <tr>
+                               <th>Problem Title</th><th>Report</th><th class="">ACTION</th>
+                            </tr>
+                            <?php
+                            while ($row = mysqli_fetch_assoc($data)) {
+                                $problemid = $row['problem_id'];
+                                $report = $row['description'];
+                                $title = $row['title'];
+                                ?>
+
+                                <tr>
+                                    <td><?php echo $title; ?></td><td><?php echo $report; ?></td><td colspan="2"><a style="" href="delete.php?problemid=<?php echo $problemid;?>"><button class="btn btn-danger" name="delete">DELETE</button></a></td>
+                                </tr>
+
+                            <?php } ?>
+                        </table
+                       <br>
+                        <div class="text-center"><b style="color: #ffffff;"><h3>Reports From Courses</h3></b></div>
+                        <table class="table">
+                            <tr>
+                                <th>Problem Title</th><th>Report</th><th class="">ACTION</th>
+                            </tr>
+                            <?php
+                            $courseQuery = "SELECT reports.*, courses.title FROM reports JOIN courses ON courses.course_id = reports.course_id WHERE reports.course_id is not null";
+                            $coursereports = mysqli_query($connection, $courseQuery);
+                            while ($courseRow = mysqli_fetch_assoc($coursereports)) {
+                                $courseid = $courseRow['course_id'];
+                                $report = $courseRow['description'];
+                                $title = $courseRow['title'];
+                                ?>
+
+                                <tr>
+                                    <td><?php echo $title; ?></td><td><?php echo $report; ?></td><td colspan="2"><a style="" href="delete.php?courseid=<?php echo $courseid;?>"><button class="btn btn-danger" name="delete">DELETE</button></a></td>
+                                </tr>
+
+                            <?php } ?>
+                        </table>
                     </div>
                 </div>
                 <!-- /.row -->

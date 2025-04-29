@@ -29,10 +29,6 @@ function escape_data($data){
     $re_pass = escape_data($_POST['re_pass']);
     $hashed_pass = password_hash($password, PASSWORD_DEFAULT);
 
-    echo $name;
-    echo $email;
-    echo $password;
-    echo $re_pass;
 
      if($password == $re_pass){
          // Hash the password
@@ -53,6 +49,7 @@ function escape_data($data){
          }
 
          $connection->close();
+         header("Location:login.php");
      } else {
          echo "Passwords do not match!";
      }

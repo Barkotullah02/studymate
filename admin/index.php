@@ -69,7 +69,10 @@ include "validate.php";
                     <a href="#"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
                 </li>
                 <li>
-                    <a href="message.php"><i class="fa fa-fw fa-envelope"></i> Messages</a>
+                    <a href="users.php"><i class="fa fa-fw fa-user"></i> Users</a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-fw fa-envelope"></i> Messages</a>
                 </li>
                 <li>
                     <a href="new_admin.php"><i class="fa fa-fw fa-plus"></i> Add new admin</a>
