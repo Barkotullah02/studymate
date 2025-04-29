@@ -1,0 +1,353 @@
+/* google font Judson, Inter, Abril Fatface */
+@import url('https://fonts.googleapis.com/css2?family=Abril+Fatface&family=Inter&family=Judson&display=swap');
+
+*{
+    font-family: "Inter";
+}
+.num-box{
+    width: 100%;
+    border: 1px solid #1dbcc3;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    background: #1dbcc3;
+    overflow: hidden;
+}
+.subNum{
+    height: 60%;
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 3%;
+    margin-bottom: 2rem;
+    border: 2px solid lightcyan;
+    overflow: hidden;
+}
+.num1{
+    float: right;
+    width: 33.3%;
+    height: 100%;
+    font-size: 3.7rem;
+    font-family: monospace;
+    padding: 1.2rem;
+    text-align: center;
+}
+.num2{
+    float: right;
+    width: 33.3%;
+    height: 100%;
+    font-size: 3.7rem;
+    font-family: monospace;
+    padding: 1.2rem;
+    text-align: center;
+}
+.num3{
+
+    float: right;
+    width: 33.3%;
+    height: 100%;
+    font-size: 3.7rem;
+    font-family: monospace;
+    padding: 1.2rem;
+    text-align: center;
+}
+body {
+  font-family: Arial;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+img {
+  vertical-align: middle;
+}
+
+/* Position the image container (needed to position the left and right arrows) */
+.container {
+  position: relative;
+}
+
+/* Hide the images by default */
+.mySlides {
+  display: none;
+}
+
+/* Add a pointer when hovering over the thumbnail images */
+.cursor {
+  cursor: pointer;
+}
+
+/* Next & previous buttons */
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: 40%;
+  width: auto;
+  padding: 16px;
+  margin-top: -50px;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.next {
+  margin-left: 65%;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.prev:hover,
+.next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Number text (1/3 etc) */
+.numbertext {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+/* Container for image text */
+.caption-container {
+  text-align: center;
+  background-color: ;
+  padding: 2px 16px;
+  color: white;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Six columns side by side */
+.column {
+  float: left;
+  width: 16.66%;
+}
+
+/* Add a transparency effect for thumnbail images */
+.demo {
+  opacity: 0.6;
+}
+
+.active,
+.demo:hover {
+  opacity: 1;
+}
+
+.slide1{
+  width: 100%;
+  padding: 2rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 0.5%;
+  border: 5px solid lavenderblush;
+  overflow: hidden;
+}
+
+.event-container{
+  width: 70%;
+  float: left;
+  margin: 10px;
+}
+.mySlidesAlign{
+  width: 70%;
+}
+.our-event{
+  float: right;
+  width: 30%;
+  margin: 0%;
+}
+.event-txt{
+  height: 25rem;
+}
+.event-img{
+  width: 70%;
+}
+.est{
+  font-size: 1rem;
+  font-weight: 100;
+  text-align: center;
+}
+.social-link{
+  text-decoration: none;
+  color: #003955db;
+}
+.social-link:hover{
+  color: black;
+  cursor: pointer;
+}
+.our-team{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 5px solid lightblue;
+  overflow: hidden;
+  padding: 1.5rem;
+}
+.team-slide{
+  float: left;
+  width: 83%;
+  height: 100%;
+}
+.team-txt{
+  float: right;
+  width: 10%;
+  height: 27rem;
+  text-align: right;
+  margin-top: 2.5rem;
+  overflow: hidden;
+  margin-right: 6%;
+}
+.simg1{
+  float: left;
+  height: 32rem;
+  width: 36%;
+  margin-right: 2%;
+  border-radius: 3%;
+  background-color: white;
+  box-shadow: 5px 3px #212529b3;
+  overflow: hidden;
+}
+.simg2, .simg3{
+  float: left;
+  height: 27rem;
+  width: 29%;
+  margin-right: 0.5%;
+  margin-top: 2.5rem;
+  border-radius: 3%;
+  background-color: white;
+  overflow: hidden;
+}
+.best-member{
+  width: 100%;
+  height: 35rem;
+  overflow: hidden;
+  background: url("../img/best_member.png") no-repeat center; 
+  background-size: cover;
+  margin-bottom: 1rem;
+}
+.best-member-img{
+  width: 49%;
+  float: left;
+  height: 100%;
+  overflow: hidden;
+}
+.best-member-txt{
+  margin-left: 2%;
+  width: 49%;
+  float: left;
+  height: 100%;
+}
+.card{
+  width: 60%;
+  height: 80%;
+  margin-top: 6%;
+  margin-left: 30%;
+  background: #1CBBC3;
+  text-align: center;
+}
+.card-img{
+  height: 75%;
+  width: 90%;
+  background-color: white;
+  margin-left: 5%;
+  margin-top: 5%;
+}
+.card-img-top1{
+  width: 80% !important;
+}
+.bm-txt{
+  width: 70%;
+  float: left;
+  margin-top: 6%;
+  text-align: center;
+}
+.bm-txt-details{
+  text-align: justify;
+  font-family: monospace;
+}
+.our-partners{
+  width: 100%;
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(white, #73d0d6);
+}
+.pr-partner-img{
+  width: 100%;
+  overflow: hidden;
+}
+.pr-partner-img-align{
+  width: 85%;
+  margin-left: 7.5%;
+  height: 100%;
+  padding: 3px;
+  overflow: hidden;
+
+}
+.prp-img{
+  width: 19%;
+  float: left;
+  margin: 0.5%;
+}
+.social-ref{
+  width: 100%;
+  background-color: white;
+  text-align: center;
+  font-size: 2rem;
+}
+.scec{
+  margin-right: 20px;
+}
+.sece-ref{
+  text-decoration: none;
+  color: white;
+}
+.sece-ref:hover{
+  color: lightcyan;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
